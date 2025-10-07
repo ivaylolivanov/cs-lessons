@@ -34,3 +34,25 @@ int number = 5;
 
 string text = Console.ReadLine();
 Console.WriteLine(text);
+
+// ===========DAY 2==============================================================
+double number1 = 0;
+double number2 = 0;
+
+string input = Console.ReadLine();
+number1 = double.Parse(input);
+
+input = Console.ReadLine();
+number2 = double.Parse(input);
+
+Console.WriteLine(number1);
+Console.WriteLine(number2);
+
+if (number1 > 0)
+{
+    Console.WriteLine("Positive");
+}
+else
+{
+    Console.WriteLine("Negative");
+}

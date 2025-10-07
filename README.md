@@ -27,6 +27,7 @@
 
 ## 🚀 Теми
 
+0. [Примерна домашна](./homework-example/README.md)
 1. [Въведение в C#](./introduction/README.md)
    1. [Променливи, типове данни и основни операции](./introduction/variables/README.md)
    2. [Условности](./introduction/conditions/README.md)

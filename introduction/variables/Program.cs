@@ -5,3 +5,6 @@ string name = "Stavri";
 float celsium = 27.3f;
 
 double kelvin = 324.442345523;
+
+string input = Console.ReadLine();
+Console.WriteLine(input);

@@ -29,8 +29,8 @@
 
 1. [Въведение в C#](./introduction/README.md)
    1. [Променливи, типове данни и основни операции](./introduction/variables/README.md)
-   2. [Преговор](./introduction/review/README.md)
-2. [Условни конструкции](./conditions/README.md)
+   2. [Условности](./introduction/conditions/README.md)
+   3. [Преговор](./introduction/review/README.md)
 3. [Цикли](./loops/README.md)
 
 ---

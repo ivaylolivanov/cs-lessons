@@ -8,3 +8,13 @@ double kelvin = 324.442345523;
 
 string input = Console.ReadLine();
 Console.WriteLine(input);
+
+Console.WriteLine(5 + 1);
+Console.WriteLine(5 - 7);
+Console.WriteLine(3 * 2);
+Console.WriteLine(3 / 2);
+Console.WriteLine(17 % 2);
+
+int number = 31;
+float realNumber = 17.63f;
+Console.WriteLine(number + realNumber);

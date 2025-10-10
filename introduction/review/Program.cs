@@ -35,7 +35,7 @@ int number = 5;
 string text = Console.ReadLine();
 Console.WriteLine(text);
 
-// ===========DAY 2==============================================================
+// ===========DAY 2=============================================================
 double number1 = 0;
 double number2 = 0;
 
@@ -56,3 +56,15 @@ else
 {
     Console.WriteLine("Negative");
 }
+
+// ===========DAY 3=============================================================
+Console.WriteLine("Number:");
+string day3Input = Console.ReadLine();
+
+int age = int.Parse(day3Input);
+if (age < 0)
+    Console.WriteLine("Not born yet!");
+else if (age < 18)
+    Console.WriteLine("Still a minor!");
+else
+    Console.WriteLine("Now a senior!");

@@ -68,3 +68,24 @@ else if (age < 18)
     Console.WriteLine("Still a minor!");
 else
     Console.WriteLine("Now a senior!");
+
+// =========== DAY 4 - Review tasks ============================================
+string day4Input = Console.ReadLine();
+double num = double.Parse(day4Input);
+Console.WriteLine(num);
+
+day4Input = Console.ReadLine();
+num = double.Parse(day4Input);
+Console.WriteLine(num);
+
+string data = Console.ReadLine();
+double numTask2 = double.Parse(data);
+
+data = Console.ReadLine();
+double num2Task2 = double.Parse(data);
+
+Console.WriteLine("Sum: "      + (numTask2 + num2Task2));
+Console.WriteLine("Diff: "     + (numTask2 - num2Task2));
+Console.WriteLine("Product: "  + (numTask2 * num2Task2));
+Console.WriteLine("Modulo: "   + (numTask2 % num2Task2));
+Console.WriteLine("Division: " + (numTask2 / num2Task2));

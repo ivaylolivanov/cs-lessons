@@ -86,8 +86,9 @@ double numTask2 = double.Parse(data);
 data = Console.ReadLine();
 double num2Task2 = double.Parse(data);
 
-Console.WriteLine("Sum: "      + (numTask2 + num2Task2));
-Console.WriteLine("Diff: "     + (numTask2 - num2Task2));
-Console.WriteLine("Product: "  + (numTask2 * num2Task2));
-Console.WriteLine("Modulo: "   + (numTask2 % num2Task2));
-Console.WriteLine("Division: " + (numTask2 / num2Task2));
+Console.WriteLine("Sum: "           + (numTask2 + num2Task2));
+Console.WriteLine("Diff: "          + (numTask2 - num2Task2));
+Console.WriteLine("Product: "       + (numTask2 * num2Task2));
+Console.WriteLine("Modulo: "        + (numTask2 % num2Task2));
+Console.WriteLine("Division: "      + (numTask2 / num2Task2));
+Console.WriteLine("Concatenation: " + numTask2 + num2Task2);

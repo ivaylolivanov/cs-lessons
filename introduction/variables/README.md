@@ -97,3 +97,28 @@
     Console.WriteLine(a % 5);
     Console.WriteLine(-a % 11);
 ```
+
+## Конкатенация
+* Операция, с която прилепяме 2 текстови стойности.
+* Трябва да обръщаме внимание на приоритета на операциите, защото резултата може да не е същия.
+
+![Concatenation](./data/gifs/ppap.gif)
+
+### Конкатенация (+)
+
+``` c#
+    double number1 = 3.14;
+    double number2 = -12.5;
+
+    // Пример за неочакван резултат:
+    // My message: 3.14-12.5
+    Console.WriteLine("My hardcoded message: " + number1 + number2);
+
+    // Пример как можем да изведем резултата от операцията number1 + number 2
+    // след съобщението:
+    // My message: -9.36
+    //
+    // Различното са скобите. Действието в тях, както и в математиката, се
+    // извършва с приоритет.
+    Console.WriteLine("My hardcoded message: " + (number1 + number2));
+```

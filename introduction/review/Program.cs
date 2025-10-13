@@ -70,6 +70,8 @@ else
     Console.WriteLine("Now a senior!");
 
 // =========== DAY 4 - Review tasks ============================================
+Console.WriteLine("\n\nDAY 4 - Review tasks\n");
+
 string day4Input = Console.ReadLine();
 double num = double.Parse(day4Input);
 Console.WriteLine(num);

@@ -89,6 +89,28 @@ double num2Task2 = double.Parse(data);
 Console.WriteLine("Sum: "           + (numTask2 + num2Task2));
 Console.WriteLine("Diff: "          + (numTask2 - num2Task2));
 Console.WriteLine("Product: "       + (numTask2 * num2Task2));
-Console.WriteLine("Modulo: "        + (numTask2 % num2Task2));
-Console.WriteLine("Division: "      + (numTask2 / num2Task2));
+
+if (num2Task2 == 0)
+{
+    Console.WriteLine("Cannot divide by zero!");
+}
+else
+{
+    Console.WriteLine("Modulo: "   + (numTask2 % num2Task2));
+    Console.WriteLine("Division: " + (numTask2 / num2Task2));
+}
+
 Console.WriteLine("Concatenation: " + numTask2 + num2Task2);
+
+// =========== DAY 5 - Review tasks 2 ===========================================
+Console.WriteLine("\n\nDAY 5 - Review tasks part 2\n\n");
+double aDay5;
+Console.WriteLine("Rectangle side");
+string inputDay5 = Console.ReadLine();
+aDay5 = double.Parse(inputDay5);
+double bDay5;
+Console.WriteLine("Rectangle side");
+inputDay5 = Console.ReadLine();
+bDay5 = double.Parse(inputDay5);
+
+Console.WriteLine("Result: " + (aDay5 * bDay5));

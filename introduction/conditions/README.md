@@ -2,6 +2,7 @@
 
 ## Условни конструкции
 Запазената дума за започване на условна конструкция е if, след нея в скоби поставяме условието, чиято истинност проверяваме. Така създаваме разклонение в процеса, а неговото поведение описваме в блок под if-а. Заграждаме блока с къдрави скоби `{ }`
+
 ``` c#
 if (5 < 10)
 {
@@ -10,6 +11,7 @@ if (5 < 10)
 ```
 
 Ако искаме да засегнем всичко останали случаи освен този, който сме дефинирали в if клаузата, използваме ключовата дума else. При нея няма нужда да посочваме отделни случаи, тъй като се обособяват всички други, освен описаните в прилежащата if клауза.
+
 ``` c#
 int p = 12;
 if (p < 10)
@@ -23,6 +25,7 @@ else
 ```
 
 Можем да обособим различни случаи на принципа описан по-горе с комбинация на else и if.
+
 ``` c#
 int age = 30;
 if (age < 18)
@@ -81,22 +84,69 @@ else
 
 ## Резултат от логическа операция
 * Записваме в променлива от тип bool</li>
-  ``` c#
-      bool isWinterRightNow = false;
-      bool doesItFeelLikeItIs = true;
-  ```
+
+``` c#
+bool isWinterRightNow = false;
+bool doesItFeelLikeItIs = true;
+```
+
 * Можем да комбинираме няколко операции</li>
-  ``` c#
-      bool isWinterOrFeelsLikeItIs = isWinterRightNow || doesItFeelLikeItIs;
-  ```
+
+``` c#
+bool isWinterOrFeelsLikeItIs = isWinterRightNow || doesItFeelLikeItIs;
+```
+
 * Можем директно да използваме в условни конструкции </li>
-  ``` c#
-      if (true)
-          // Do something
-  ```
+
+``` c#
+if (true)
+    // Do something
+```
+
 * Можем да извършваме логически операции с променливи</li>
-  ``` c#
-      bool somethingIsTrue = true;
-      bool somethingIsFalse = false;
-      bool sometimesWinSometimesLun = somethingIsTrue || somethingIsFalse;
-  ```
+
+``` c#
+bool somethingIsTrue = true;
+bool somethingIsFalse = false;
+bool sometimesWinSometimesLun = somethingIsTrue || somethingIsFalse;
+```
+
+## Сравняващи операции
+Сравняващите операции са логически израз. Техният резултат може да е или true, или false, което е от bool тип данни.
+Условната конструкция взима директно резултата от този израз и изпълнява съответния блок, ако съществува такъв.
+Стойността на такъв израз може да се запази в променлива. Такава променлива може да бъде използвана в условна конструкция директно като се взима предвид нейната стойност.
+
+
+``` c#
+if (5 < 10)
+    Console.WriteLine("5 is less than 10");
+
+if (5 > 10)
+    Console.WriteLine("5 is greater than 10");
+
+bool comparison = 3 < 0;
+if (comparison)
+    Console.WriteLine("3 is less than 0");
+```
+
+За да проверим дали 2 стойностти са **равни** една на друга използваме оператора **==**.
+
+``` c#
+if (3 == 4)
+    Console.WriteLine("3 equals 4");
+
+int a = 5;
+if (a == 5)
+    Console.WriteLine("a equals 5");
+```
+
+За да проверим дали 2 стойностти са **различи** - оператора **!=**. Можем да го мислим като математическия символ ≠.
+
+``` c#
+if (3 != 4)
+    Console.WriteLine("3 is not 4");
+
+int a = 5;
+if (a != 5)
+    Console.WriteLine("a is different than 5");
+```

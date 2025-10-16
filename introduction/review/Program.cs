@@ -102,7 +102,7 @@ else
 
 Console.WriteLine("Concatenation: " + numTask2 + num2Task2);
 
-// =========== DAY 5 - Review tasks 2 ===========================================
+// =========== DAY 5 - Review tasks 2 ==========================================
 Console.WriteLine("\n\nDAY 5 - Review tasks part 2\n\n");
 double aDay5;
 Console.WriteLine("Rectangle side");
@@ -114,3 +114,14 @@ inputDay5 = Console.ReadLine();
 bDay5 = double.Parse(inputDay5);
 
 Console.WriteLine("Result: " + (aDay5 * bDay5));
+
+// =========== DAY 6 - Review tasks 2 ==========================================
+Console.WriteLine("\n\nDAY 6 - Review tasks part 2\n\n");
+string inputDay6 = Console.ReadLine();
+double bDay6Num = double.Parse(inputDay6);
+
+inputDay6 = Console.ReadLine();
+double a2Day6Num = double.Parse(inputDay6);
+double perimeter = 2 * (bDay6Num + a2Day6Num);
+
+Console.WriteLine(perimeter);

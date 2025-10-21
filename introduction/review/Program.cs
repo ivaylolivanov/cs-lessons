@@ -125,3 +125,78 @@ double a2Day6Num = double.Parse(inputDay6);
 double perimeter = 2 * (bDay6Num + a2Day6Num);
 
 Console.WriteLine(perimeter);
+
+// =========== DAY 7 - Review tasks loop =======================================
+// while(<CONDITION>) { <BODY> }
+
+int counter = 10;
+while (counter > 0)
+{
+    Console.WriteLine(counter);
+    counter--;
+}
+
+// for (<ITERATOR>; <CONDITION>; <STEP>) { <BODY> }
+for (int iterator1 = 0; iterator1 < 10; iterator1++)
+{
+    Console.WriteLine(iterator1);
+}
+
+int iterator = 10;
+for (; iterator > 0; iterator--)
+{
+    Console.WriteLine(iterator);
+}
+
+Console.WriteLine(iterator);
+// NOTE: Example of endless for loop
+// for (;;)
+// {
+//     Console.WriteLine("asdf");
+// }
+
+for (; iterator > 0;)
+{
+    Console.WriteLine(iterator);
+    iterator--;
+}
+
+/*
+
+do
+{
+    <BODY>
+} while (<CONDITION>);
+
+*/
+
+int iterator2 = 0;
+do
+{
+    Console.WriteLine(">> sadfasdfsadf");
+} while (iterator2 > 0);
+
+
+// Task 16 - Sum of first n numbers
+Console.WriteLine("\n\nDAY 7 - Loop \n\n");
+string inputLoops = Console.ReadLine();
+
+int n = int.Parse(input);
+int sum = 0;
+int product = 1;
+for (int i = 1; i < n; ++i)
+{
+    sum += i;
+    product *= i;
+    Console.WriteLine("Sum: " + i.ToString() + " " + sum.ToString());
+    Console.WriteLine("Product: " + i.ToString() + " " + product.ToString());
+}
+
+Console.WriteLine(sum);
+Console.WriteLine(product);
+
+Console.WriteLine("1 to N: ");
+for (int i = 1; i <= n; ++i)
+{
+    Console.WriteLine(i);
+}

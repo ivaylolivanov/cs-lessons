@@ -200,3 +200,18 @@ for (int i = 1; i <= n; ++i)
 {
     Console.WriteLine(i);
 }
+
+// =========== DAY 8 - Review tasks loop =======================================
+Console.WriteLine("\n\nDAY 8 - Loop part 2 \n\n");
+
+// Task 19
+string numTask19 = Console.ReadLine();
+int nTask19 = int.Parse(numTask19);
+string output = "";
+for (int i = 1; i <= nTask19; i++)
+{
+    if ((i % 2) == 0)
+        output += " " + i;
+}
+
+Console.WriteLine(output);

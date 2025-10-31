@@ -4,6 +4,7 @@
 * [Променливи, типове данни и аритметични операции](./variables/README.md)
 * [Условности](./conditions/README.md)
 * [Преговор](./review/README.md)
+* [ASCII](./ascii/README.md)
 
 ## Какво е C#
 <ul>

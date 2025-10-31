@@ -32,7 +32,10 @@
    1. [Променливи, типове данни и основни операции](./introduction/variables/README.md)
    2. [Условности](./introduction/conditions/README.md)
    3. [Преговор](./introduction/review/README.md)
-3. [Цикли](./loops/README.md)
+   4. [ASCII](./introduction/ascii/README.md)
+   5. [Задачи от 1ва контролна](./introduction/post-exam/README.md)
+2. [Цикли](./loops/introduction/README.md)
+   1. [Упражнение](./loops/loops-exercise/README.md)
 
 ---
 

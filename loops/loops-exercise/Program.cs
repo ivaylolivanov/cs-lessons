@@ -18,3 +18,25 @@ for (int i = 0; i < num; i++)
 }
 
 Console.WriteLine(max);
+
+// 2ра Задача
+Console.WriteLine("Task 2");
+int number = int.Parse(Console.ReadLine());
+while(number > 10)
+{
+    Console.WriteLine(number % 10);
+    number = number / 10;
+}
+Console.WriteLine(number);
+
+// 3та Задача
+Console.WriteLine("Task 3");
+int primeNumber = int.Parse(Console.ReadLine());
+for (int i = 2; i < primeNumber; i++)
+{
+    if (primeNumber % i == 0)
+    {
+        Console.WriteLine(i + " is not a prime number");
+        break;
+    }
+}

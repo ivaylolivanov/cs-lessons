@@ -3,11 +3,14 @@
   на един ред, разделени с запетая и празно място след нея.*/
 int num = int.Parse(Console.ReadLine());
 string dividers = "";
-for (int i = 1; i <= num / 2; i++)
+for (int i = 1; i < num; i++)
 {
-    if (!string.IsNullOrEmpty(dividers))
-        dividers += ", ";
+    if (num % i == 0)
+    {
+        if (dividers != "")
+            dividers += ", ";
 
-    dividers += i;
+        dividers += i;
+    }
 }
 Console.WriteLine(dividers);

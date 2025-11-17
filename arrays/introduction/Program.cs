@@ -47,3 +47,19 @@ foreach (int element in myFullArray)
 {
     Console.WriteLine(element);
 }
+
+// Task
+Console.WriteLine("Task - arrays");
+int[] numbers = new int[10];
+numbers[2] = 5;
+
+for (int i = 0; i < 10; i++)
+{
+    int a = int.Parse(Console.ReadLine());
+    numbers[i] = a + 2;
+}
+
+for (int i = 9; i >= 0; i--)
+{
+    Console.WriteLine(numbers[i]);
+}

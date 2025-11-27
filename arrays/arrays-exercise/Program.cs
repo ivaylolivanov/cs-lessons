@@ -31,3 +31,21 @@ if (isFound)
 Console.WriteLine(sum / array.Length);
 Console.WriteLine(sum);
 Console.WriteLine(max + " " + min);
+
+int firstNumber = array[0];
+for (int i = 1; i < array.Length; i++)
+{
+    array[i - 1] = array[i];
+}
+array[array.Length - 1] = firstNumber;
+
+Console.WriteLine("Rotated array:");
+for (int i = 0; i < array.Length; i++)
+{
+    if (i == array.Length - 1)
+        Console.WriteLine(array[i]);
+    else
+        Console.Write(array[i] + ", ");
+}
+
+Console.WriteLine();

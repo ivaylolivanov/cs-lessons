@@ -15,6 +15,7 @@ for (int i = 0; i < n; i++)
         negative = negative + Array[i];
     }
 }
+
 Console.WriteLine(sum);
 Console.WriteLine(negative);
-Console.WriteLine(sum + negative / n);
+Console.WriteLine((sum + negative) / n);

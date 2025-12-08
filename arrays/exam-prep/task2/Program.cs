@@ -21,32 +21,33 @@ int maxPosition = -1;
 int minPosition = -1;
 int[] newArray = new int[n];
 int p = 0;
+int newArrayCount = n;
 for (int i = 0; i < n; i++)
 {
     if (array[i] == max)
     {
         maxPosition = i;
     }
-    else if(array[i] == min)
-    {
-        newArray[p] = array[i];
-        p++;
-    }
 
     if (array[i] == min)
     {
         minPosition = i;
     }
-    else if(array[i] == max)
+
+    if ((array[i] != min) && (array[i] != max))
     {
         newArray[p] = array[i];
         p++;
+        --newArrayCount;
     }
 }
 
-Console.WriteLine(max + " " + maxPosition);
-Console.WriteLine(min + " " + minPosition);
-for (int i = 0; i < n; i++)
+Console.WriteLine("Max: " + max + ", index:  " + maxPosition);
+Console.WriteLine("Max: " + max + ", index:  " + minPosition);
+for (int i = 0; i < newArrayCount; i++)
 {
-    Console.WriteLine(newArray[i]);
+    Console.Write(newArray[i]);
+    if (i < (newArrayCount - 1))
+        Console.Write(", ");
 }
+Console.WriteLine();

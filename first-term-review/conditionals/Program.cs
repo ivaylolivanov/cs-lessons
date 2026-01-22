@@ -25,3 +25,26 @@ else
 {
     Console.WriteLine("Not a valid hour");
 }
+
+string username = "testUser";
+string pass     = "testPass123";
+
+Console.WriteLine("Please input credentials:");
+string inputUsername = Console.ReadLine();
+string inputPass     = Console.ReadLine();
+
+if (username == inputUsername)
+{
+    if (pass == inputPass)
+    {
+        Console.WriteLine("Login successful!");
+    }
+    else
+    {
+        Console.WriteLine("Wrong password.");
+    }
+}
+else
+{
+    Console.WriteLine("User does NOT exist.");
+}

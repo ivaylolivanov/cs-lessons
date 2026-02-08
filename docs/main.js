@@ -101,7 +101,7 @@ function renderTopicsList() {
         <li class="topic-item ${selectedTopic && selectedTopic.name === topic.name ? 'active' : ''}"
             onclick="selectTopic('${topic.name}')">
             <div class="topic-name">${topic.displayName}</div>
-            <div class="lesson-count">${topic.lessons.length} ?????</div>
+            <div class="lesson-count">${topic.lessons.length} урока</div>
         </li>
     `).join('');
 }

@@ -18,11 +18,11 @@ async function fetchRepoContents(path = '') {
     try {
         const response = await fetch(`${GITHUB_API_URL}/contents/${path}`);
         if (!response.ok) {
-            throw new Error(`Грешка при зареждането: ${response.status}`);
+            throw new Error(`Грешка при зареждане: ${response.status}`);
         }
         return await response.json();
     } catch (error) {
-        console.error('Грешка при извличане на съдържанието:', error);
+        console.error('Грешка при извличане на съдържание:', error);
         showError(`Грешка при зареждане на съдържанието: ${error.message}`);
         return [];
     }
@@ -32,11 +32,11 @@ async function fetchRepoInfo() {
     try {
         const response = await fetch(GITHUB_API_URL);
         if (!response.ok) {
-            throw new Error(`Грешка при зареждане на информацията: ${response.status}`);
+            throw new Error(`Грешка при зареждане на информация: ${response.status}`);
         }
         return await response.json();
     } catch (error) {
-        console.error('Грешка при извличане на информацията на хранилището:', error);
+        console.error('Грешка при извличане на информация за хранилището:', error);
         return null;
     }
 }
@@ -47,10 +47,11 @@ async function fetchReadme(path = '') {
         if (!response.ok) {
             return '';
         }
+
         const data = await response.json();
         return decodeBase64UTF8(data.content);
     } catch (error) {
-        console.error('Грешка при извличането на README:', error);
+        console.error('Грешка при извличане на README:', error);
         return '';
     }
 }
@@ -99,16 +100,28 @@ function renderTopicsList() {
 
     topicsList.innerHTML = topics.map(topic => `
         <li class="topic-item ${selectedTopic && selectedTopic.name === topic.name ? 'active' : ''}"
-            onclick="selectTopic('${topic.name}')">
+            data-topic-name="${topic.name}">
             <div class="topic-name">${topic.displayName}</div>
             <div class="lesson-count">${topic.lessons.length} урока</div>
         </li>
     `).join('');
+
+    document.querySelectorAll('.topic-item').forEach(item => {
+        item.addEventListener('click', function() {
+            const topicName = this.getAttribute('data-topic-name');
+            selectTopic(topicName);
+        });
+    });
 }
 
 async function selectTopic(topicName) {
+    console.log('Избрана тема:', topicName);
     const topic = topics.find(t => t.name === topicName);
-    if (!topic) return;
+    if (!topic) {
+        console.error('Тема не е намерена:', topicName);
+        showError(`Тема "${topicName}" не е намерена.`);
+        return;
+    }
 
     selectedTopic = topic;
     renderTopicsList();
@@ -139,7 +152,7 @@ async function renderTopicContent(topic) {
             `}
 
             <div class="lesson-files">
-                <h3 class="files-title"><i class="fas fa-file-code"></i>Уроци в тази тема</h3>
+                <h3 class="files-title"><i class="fas fa-file-code"></i> Уроци в тази тема</h3>
 
                 ${topic.lessons.length > 0 ? `
                     <ul class="file-list">
@@ -206,7 +219,7 @@ function showError(message) {
         <div class="error-message">
             <h3><i class="fas fa-exclamation-triangle"></i> Грешка</h3>
             <p>${message}</p>
-            <p>Моля, опитайте по-късно или проверете връзката и интернета.</p>
+            <p>Моля, опитайте отново по-късно или проверете връзката с интернет.</p>
         </div>
     `;
 }
@@ -241,6 +254,7 @@ async function initializeApp() {
             }
         }
 
+        console.log('Заредени теми:', topics);
         renderTopicsList();
 
         if (topics.length > 0) {
@@ -261,5 +275,3 @@ async function initializeApp() {
 }
 
 document.addEventListener('DOMContentLoaded', initializeApp);
-
-window.selectTopic = selectTopic;

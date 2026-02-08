@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Уроци - ivaylolivanov</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-code"></i> C# Уроци</h1>
+            <p class="subtitle">Това е автоматично генерирана уебстраница, която показва всички теми и уроци от хранилището на ivaylolivanov/cs-lessons. Съдържанието се обновява автоматично при всяко посещение.</p>
+            <p class="last-updated">Последна промяна в хранилището: <span id="last-updated">Зареждане...</span></p>
+            <a href="https://github.com/ivaylolivanov/cs-lessons" class="repo-link" target="_blank">
+                <i class="fab fa-github"></i> Преглед на хранилището в GitHub
+            </a>
+        </header>
+
+        <div class="content">
+            <aside class="topics-sidebar">
+                <h2><i class="fas fa-folder-open"></i> Теми</h2>
+                <p>Изберете тема, за да видите уроците по нея.</p>
+                <ul class="topics-list" id="topics-list">
+                    <li class="loading-topic">
+                        <div class="loading">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <p>Зареждане на темите...</p>
+                        </div>
+                    </li>
+                </ul>
+            </aside>
+
+            <main class="lessons-main">
+                <div id="initial-loading" class="loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Зареждане на уроците...</p>
+                </div>
+
+                <div id="lesson-content-container">
+                    <!-- Тук ще се зарежда динамично съдържанието на уроците -->
+                </div>
+            </main>
+        </div>
+
+        <footer>
+            <p>Генерирано автоматично от хранилището <a href="https://github.com/ivaylolivanov/cs-lessons" target="_blank">ivaylolivanov/cs-lessons</a></p>
+            <p>Страницата се обновява автоматично при всяко посещение, когато има нови теми или уроци.</p>
+        </footer>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>

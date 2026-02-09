@@ -9,6 +9,7 @@
  * 100
  */
 
+Console.WriteLine("This is made with for:");
 for (int i = 0; i <= 100; i++)
 {
     Console.Write(i + " ");
@@ -20,6 +21,7 @@ for (int i = 0; i <= 100; i++)
 }
 Console.WriteLine();
 
+Console.WriteLine("This is made with while:");
 int num = 0;
 while (num <= 100)
 {
@@ -32,4 +34,18 @@ while (num <= 100)
 
     num++;
 }
+Console.WriteLine();
+
+Console.WriteLine("This is made with do-while:");
+num = 0;
+do
+{
+    Console.Write(num + " ");
+    if (num % 10 == 9)
+    {
+        Console.WriteLine();
+    }
+
+    num++;
+} while (num <= 100);
 Console.WriteLine();

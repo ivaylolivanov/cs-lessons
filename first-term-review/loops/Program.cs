@@ -49,3 +49,17 @@ do
     num++;
 } while (num <= 100);
 Console.WriteLine();
+
+// Task:
+// Input N numbers and output the one with the highest value
+int n = int.Parse(Console.ReadLine());
+int max = int.MinValue;
+for (int i = 0; i < n; i++)
+{
+    int number = int.Parse(Console.ReadLine());
+    if (number > max)
+    {
+        max = number;
+    }
+}
+Console.WriteLine(max);

@@ -6,10 +6,9 @@ OUTPUT_FILE="${OUTPUT_DIR}/readme-paths.txt";
 
 mkdir -pv "$OUTPUT_DIR";
 
-find . -type f -iname "readme.md" -print0 \
+find "${REPO_ROOT}" -type f -iname "readme.md" -print0 \
     | while IFS= read -r -d '' file; do
-        title=$(head -n1 "$file");
-        echo -e "${file#./}";
+        echo -e "${file#$REPO_ROOT/}";
 done > "$OUTPUT_FILE";
 
 echo "${OUTPUT_FILE} generated successfully.";

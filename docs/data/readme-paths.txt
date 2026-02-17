@@ -1,0 +1,13 @@
+README.md
+loops/README.md
+loops/loops-exercise/README.md
+loops/introduction/README.md
+loops/exam-tasks/README.md
+arrays/README.md
+homework-example/README.md
+introduction/conditions/README.md
+introduction/README.md
+introduction/post-exam/README.md
+introduction/variables/README.md
+introduction/review/README.md
+introduction/ascii/README.md

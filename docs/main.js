@@ -1,277 +1,104 @@
 const REPO_OWNER = 'ivaylolivanov';
 const REPO_NAME = 'cs-lessons';
-const GITHUB_API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}`;
+const BRANCH = 'main';
+const PATHS_FILE = 'data/readme-paths.txt';
 
-let topics = [];
-let selectedTopic = null;
+const GITHUB_BLOB_URL = `https://github.com/${REPO_OWNER}/${REPO_NAME}/blob/${BRANCH}`;
 
-function decodeBase64UTF8(base64) {
-    const binaryString = atob(base64);
-    const bytes = new Uint8Array(binaryString.length);
-    for (let i = 0; i < binaryString.length; i++) {
-        bytes[i] = binaryString.charCodeAt(i);
-    }
-    return new TextDecoder('utf-8').decode(bytes);
-}
+function buildStructure(paths) {
+    const topicMap = new Map();
 
-async function fetchRepoContents(path = '') {
-    try {
-        const response = await fetch(`${GITHUB_API_URL}/contents/${path}`);
-        if (!response.ok) {
-            throw new Error(`Грешка при зареждане: ${response.status}`);
-        }
-        return await response.json();
-    } catch (error) {
-        console.error('Грешка при извличане на съдържание:', error);
-        showError(`Грешка при зареждане на съдържанието: ${error.message}`);
-        return [];
-    }
-}
+    for (let p of paths) {
+        p = p.trim();
+        if (!p) continue;
+        if (!p.endsWith('README.md')) continue;
 
-async function fetchRepoInfo() {
-    try {
-        const response = await fetch(GITHUB_API_URL);
-        if (!response.ok) {
-            throw new Error(`Грешка при зареждане на информация: ${response.status}`);
-        }
-        return await response.json();
-    } catch (error) {
-        console.error('Грешка при извличане на информация за хранилището:', error);
-        return null;
-    }
-}
+        const parts = p.split('/');
+        const isRootReadme = parts.length === 1;
 
-async function fetchReadme(path = '') {
-    try {
-        const response = await fetch(`${GITHUB_API_URL}/contents/${path}README.md`);
-        if (!response.ok) {
-            return '';
+        if (isRootReadme) {
+            continue;
         }
 
-        const data = await response.json();
-        return decodeBase64UTF8(data.content);
-    } catch (error) {
-        console.error('Грешка при извличане на README:', error);
-        return '';
-    }
-}
+        const topicName = parts[0];
+        const isTopicReadme = parts.length === 2 && parts[1] === 'README.md';
 
-function extractTopicsFromStructure(contents) {
-    return contents
-        .filter(item => item.type === 'dir' && !item.name.startsWith('.') && item.name !== 'data')
-        .map(topic => ({
-            name: topic.name,
-            path: topic.path,
-            displayName: formatTopicName(topic.name),
-            lessons: []
-        }));
-}
-
-function formatTopicName(topicName) {
-    const nameMap = {
-        'introduction': 'Въведение в C#',
-        'loops': 'Цикли',
-        'arrays': 'Масиви',
-        'homework-example': 'Примерна домашна',
-        'first-term-review': 'Преговор за първи срок'
-    };
-
-    if (nameMap[topicName]) {
-        return nameMap[topicName];
-    }
-
-    return topicName
-        .split('-')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ');
-}
-
-function renderTopicsList() {
-    const topicsList = document.getElementById('topics-list');
-
-    if (topics.length === 0) {
-        topicsList.innerHTML = `
-            <li class="no-content">
-                <p>Не са намерени теми.</p>
-            </li>
-        `;
-        return;
-    }
-
-    topicsList.innerHTML = topics.map(topic => `
-        <li class="topic-item ${selectedTopic && selectedTopic.name === topic.name ? 'active' : ''}"
-            data-topic-name="${topic.name}">
-            <div class="topic-name">${topic.displayName}</div>
-            <div class="lesson-count">${topic.lessons.length} урока</div>
-        </li>
-    `).join('');
-
-    document.querySelectorAll('.topic-item').forEach(item => {
-        item.addEventListener('click', function() {
-            const topicName = this.getAttribute('data-topic-name');
-            selectTopic(topicName);
-        });
-    });
-}
-
-async function selectTopic(topicName) {
-    console.log('Избрана тема:', topicName);
-    const topic = topics.find(t => t.name === topicName);
-    if (!topic) {
-        console.error('Тема не е намерена:', topicName);
-        showError(`Тема "${topicName}" не е намерена.`);
-        return;
-    }
-
-    selectedTopic = topic;
-    renderTopicsList();
-
-    await renderTopicContent(topic);
-}
-
-async function renderTopicContent(topic) {
-    const container = document.getElementById('lesson-content-container');
-    const loadingElement = document.getElementById('initial-loading');
-
-    if (loadingElement) {
-        loadingElement.style.display = 'none';
-    }
-
-    const readmeContent = await fetchReadme(topic.path + '/');
-
-    container.innerHTML = `
-        <div class="lesson-content active">
-            <h2 class="lesson-title">${topic.displayName}</h2>
-
-            ${readmeContent ? `
-                <div class="lesson-description">
-                    ${renderMarkdown(readmeContent)}
-                </div>
-            ` : `
-                <p class="no-content">Тази тема все още няма описание.</p>
-            `}
-
-            <div class="lesson-files">
-                <h3 class="files-title"><i class="fas fa-file-code"></i> Уроци в тази тема</h3>
-
-                ${topic.lessons.length > 0 ? `
-                    <ul class="file-list">
-                        ${topic.lessons.map(lesson => `
-                            <li class="file-item">
-                                <i class="fas fa-folder"></i>
-                                <a href="https://github.com/${REPO_OWNER}/${REPO_NAME}/tree/main/${lesson.path}"
-                                   class="file-link" target="_blank">
-                                    ${lesson.name}
-                                </a>
-                                <a href="https://github.com/${REPO_OWNER}/${REPO_NAME}/archive/refs/heads/main.zip"
-                                   class="file-download" title="Изтегляне">
-                                    <i class="fas fa-download"></i>
-                                </a>
-                            </li>
-                        `).join('')}
-                    </ul>
-                ` : `
-                    <p class="no-content">Все още няма уроци в тази тема.</p>
-                `}
-            </div>
-        </div>
-    `;
-}
-
-function renderMarkdown(content) {
-    const codeBlocks = [];
-    let index = 0;
-
-    let processedContent = content.replace(/```[\s\S]*?```/g, (match) => {
-        codeBlocks.push(match);
-        return `___CODE_BLOCK_${index++}___`;
-    });
-
-    processedContent = processedContent
-        .replace(/^# (.*$)/gim, '<h3>$1</h3>')
-        .replace(/^## (.*$)/gim, '<h4>$1</h4>')
-        .replace(/^### (.*$)/gim, '<h5>$1</h5>')
-        .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
-        .replace(/\*(.*?)\*/gim, '<em>$1</em>')
-        .replace(/!\[(.*?)\]\((.*?)\)/gim, '<img alt="$1" src="$2">')
-        .replace(/\[(.*?)\]\((.*?)\)/gim, '<a href="$2" target="_blank">$1</a>')
-        .replace(/\n\n/gim, '</p><p>')
-        .replace(/\n/gim, '<br>');
-
-    codeBlocks.forEach((block, i) => {
-        const codeContent = block.replace(/```(\w+)?\n([\s\S]*?)\n```/g, '<pre class="code-snippet"><code>$2</code></pre>')
-                                  .replace(/```([\s\S]*?)```/g, '<pre class="code-snippet"><code>$1</code></pre>');
-        processedContent = processedContent.replace(`___CODE_BLOCK_${i}___`, codeContent);
-    });
-
-    return `<p>${processedContent}</p>`;
-}
-
-function showError(message) {
-    const container = document.getElementById('lesson-content-container');
-    const loadingElement = document.getElementById('initial-loading');
-
-    if (loadingElement) {
-        loadingElement.style.display = 'none';
-    }
-
-    container.innerHTML = `
-        <div class="error-message">
-            <h3><i class="fas fa-exclamation-triangle"></i> Грешка</h3>
-            <p>${message}</p>
-            <p>Моля, опитайте отново по-късно или проверете връзката с интернет.</p>
-        </div>
-    `;
-}
-
-async function initializeApp() {
-    try {
-        const repoInfo = await fetchRepoInfo();
-        if (repoInfo) {
-            const updatedAt = new Date(repoInfo.updated_at).toLocaleDateString('bg-BG', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
+        if (!topicMap.has(topicName)) {
+            topicMap.set(topicName, {
+                name: topicName,
+                path: topicName,
+                readme: null,
+                lessons: []
             });
-            document.getElementById('last-updated').textContent = updatedAt;
         }
 
-        const contents = await fetchRepoContents();
+        const topic = topicMap.get(topicName);
 
-        topics = extractTopicsFromStructure(contents);
-
-        for (const topic of topics) {
-            const topicContents = await fetchRepoContents(topic.path);
-            if (topicContents && Array.isArray(topicContents)) {
-                topic.lessons = topicContents
-                    .filter(item => item.type === 'dir' && !item.name.startsWith('.'))
-                    .map(lesson => ({
-                        name: lesson.name,
-                        path: lesson.path
-                    }));
+        if (isTopicReadme) {
+            topic.readme = p;
+        } else if (parts.length > 2 && parts[parts.length-1] === 'README.md') {
+            const lessonName = parts[1];
+            const exists = topic.lessons.some(lesson => lesson.name === lessonName);
+            if (!exists) {
+                topic.lessons.push({
+                    name: lessonName,
+                    path: p.replace(/\/README\.md$/, ''),
+                    readme: p
+                });
             }
         }
+    }
 
-        console.log('Заредени теми:', topics);
-        renderTopicsList();
+    return Array.from(topicMap.values()).sort((a, b) => a.name.localeCompare(b.name));
+}
 
-        if (topics.length > 0) {
-            await selectTopic(topics[0].name);
-        } else {
-            document.getElementById('initial-loading').style.display = 'none';
-            document.getElementById('lesson-content-container').innerHTML = `
-                <div class="no-content">
-                    <h3>Няма налични теми</h3>
-                    <p>Все още няма теми в това хранилище.</p>
-                </div>
-            `;
+function renderHomepage(structure) {
+    const contentDiv = document.getElementById('content');
+    let html = '<h2>📂 Теми и уроци</h2>';
+
+    if (!structure || structure.length === 0) {
+        html += '<p>Няма намерени уроци.</p>';
+    } else {
+        html += '<ul>';
+        for (const topic of structure) {
+            const topicReadmeLink = topic.readme
+                  ? `<a href="${GITHUB_BLOB_URL}/${topic.readme}" target="_blank">📄 ${topic.name}</a>`
+                  : `<span>📁 ${topic.name}</span>`;
+
+            html += `<li class="topic">${topicReadmeLink} <span class="path">(${topic.path}/)</span>`;
+
+            if (topic.lessons.length > 0) {
+                topic.lessons.sort((a, b) => a.name.localeCompare(b.name));
+                html += '<ul>';
+                for (const lesson of topic.lessons) {
+                    html += `<li class="lesson">📘 <a href="${GITHUB_BLOB_URL}/${lesson.readme}" target="_blank">${lesson.name}</a> <span class="path">(${lesson.path}/)</span></li>`;
+                }
+                html += '</ul>';
+            }
+            html += '</li>';
         }
+        html += '</ul>';
+    }
+
+    html += `<hr><p>🔗 <a href="${GITHUB_BLOB_URL}/README.md" target="_blank">Виж основния README на хранилището</a></p>`;
+
+    contentDiv.innerHTML = html;
+}
+
+async function main() {
+    try {
+        const response = await fetch(PATHS_FILE);
+        if (!response.ok) {
+            throw new Error(`Не може да се зареди ${PATHS_FILE} (HTTP ${response.status})`);
+        }
+        const text = await response.text();
+        const lines = text.split('\n');
+        const structure = buildStructure(lines);
+        renderHomepage(structure);
     } catch (error) {
-        console.error('Грешка при инициализация:', error);
-        showError(`Грешка при инициализация на приложението: ${error.message}`);
+        console.error(error);
+        document.getElementById('content').innerHTML = `<div class="error">❌ Грешка: ${error.message}</div>`;
     }
 }
 
-document.addEventListener('DOMContentLoaded', initializeApp);
+window.addEventListener('DOMContentLoaded', main);

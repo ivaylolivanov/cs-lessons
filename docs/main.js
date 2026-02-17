@@ -3,6 +3,7 @@ const REPO_NAME = 'cs-lessons';
 const BRANCH = 'main';
 const PATHS_FILE = 'docs/data/readme-paths.txt';
 
+const GITHUB_RAW_URL  = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/refs/heads/${BRANCH}`;
 const GITHUB_BLOB_URL = `https://github.com/${REPO_OWNER}/${REPO_NAME}/blob/${BRANCH}`;
 
 function buildStructure(paths) {
@@ -87,7 +88,7 @@ function renderHomepage(structure) {
 
 async function main() {
     try {
-        const paths_url = `${GITHUB_BLOB_URL}/${PATHS_FILE}`;
+        const paths_url = `${GITHUB_RAW_URL}/${PATHS_FILE}`;
         const response = await fetch(paths_url);
         if (!response.ok) {
             throw new Error(`Не може да се зареди ${paths_url} (HTTP ${response.status})`);

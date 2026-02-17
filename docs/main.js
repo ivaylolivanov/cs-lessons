@@ -87,9 +87,10 @@ function renderHomepage(structure) {
 
 async function main() {
     try {
-        const response = await fetch(PATHS_FILE);
+        const paths_url = `${GITHUB_BLOB_URL}/${PATHS_FILE}`;
+        const response = await fetch(paths_url);
         if (!response.ok) {
-            throw new Error(`Не може да се зареди ${PATHS_FILE} (HTTP ${response.status})`);
+            throw new Error(`Не може да се зареди ${paths_url} (HTTP ${response.status})`);
         }
         const text = await response.text();
         const lines = text.split('\n');

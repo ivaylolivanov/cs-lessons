@@ -1,7 +1,7 @@
 const REPO_OWNER = 'ivaylolivanov';
 const REPO_NAME = 'cs-lessons';
 const BRANCH = 'main';
-const PATHS_FILE = 'data/readme-paths.txt';
+const PATHS_FILE = 'docs/data/readme-paths.txt';
 
 const GITHUB_BLOB_URL = `https://github.com/${REPO_OWNER}/${REPO_NAME}/blob/${BRANCH}`;
 

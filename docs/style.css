@@ -20,16 +20,7 @@ body
 
 h1
 {
-    border-bottom: 1px solid #eaecef;
-    padding-bottom: 0.3em; color: #0366d6;
-}
-
-h2
-{
-    margin-top: 24px;
-    color: #24292e;
-    border-bottom: 1px solid #eaecef;
-    padding-bottom: 0.3em;
+    text-align: center;
 }
 
 ul
@@ -65,14 +56,6 @@ a
 a:hover
 {
     text-decoration: underline;
-}
-
-.loading
-{
-    text-align: center;
-    padding: 50px;
-    font-size: 1.2em;
-    color: #586069;
 }
 
 .error

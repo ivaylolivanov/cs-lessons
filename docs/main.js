@@ -6,101 +6,96 @@ const PATHS_FILE = 'docs/data/readme-paths.txt';
 const GITHUB_RAW_URL  = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/refs/heads/${BRANCH}`;
 const GITHUB_BLOB_URL = `https://github.com/${REPO_OWNER}/${REPO_NAME}/blob/${BRANCH}`;
 
-function buildStructure(paths) {
+async function buildContent(paths)
+{
     const topicMap = new Map();
 
-    for (let p of paths) {
-        p = p.trim();
-        if (!p) continue;
-        if (!p.endsWith('README.md')) continue;
+    for (let path of paths)
+    {
+        path = path.trim();
+        if (!path)
+            continue;
 
-        const parts = p.split('/');
+        if (!path.endsWith('README.md'))
+            continue;
+
+        const parts = path.split('/');
         const isRootReadme = parts.length === 1;
 
-        if (isRootReadme) {
+        if (isRootReadme)
             continue;
+
+        const lessonUrl = `${GITHUB_RAW_URL}/${path}`;
+        const lessonDataResponse = await fetch(lessonUrl);
+        if (!lessonDataResponse.ok)
+        {
+            console.logError(`Lesson at ${lessonUrl} is not accessible`);
+            return;
         }
 
-        const topicName = parts[0];
-        const isTopicReadme = parts.length === 2 && parts[1] === 'README.md';
+        const lesson = await lessonDataResponse.text();
+        if (!lesson)
+        {
+            console.logError(`Lesson at ${lessonUrl} is not accessible`);
+            return;
+        }
 
-        if (!topicMap.has(topicName)) {
-            topicMap.set(topicName, {
-                name: topicName,
-                path: topicName,
-                readme: null,
-                lessons: []
+        const lessonTopic = lesson.split('\n')[0].slice(2);
+
+        if (!topicMap.has(lessonTopic))
+        {
+            topicMap.set(lessonTopic, {
+                name: lessonTopic,
+                path: lessonTopic,
+                readme: path,
             });
-        }
-
-        const topic = topicMap.get(topicName);
-
-        if (isTopicReadme) {
-            topic.readme = p;
-        } else if (parts.length > 2 && parts[parts.length-1] === 'README.md') {
-            const lessonName = parts[1];
-            const exists = topic.lessons.some(lesson => lesson.name === lessonName);
-            if (!exists) {
-                topic.lessons.push({
-                    name: lessonName,
-                    path: p.replace(/\/README\.md$/, ''),
-                    readme: p
-                });
-            }
         }
     }
 
     return Array.from(topicMap.values()).sort((a, b) => a.name.localeCompare(b.name));
 }
 
-function renderHomepage(structure) {
+function renderHomepage(structure)
+{
     const contentDiv = document.getElementById('content');
-    let html = '<h2>📂 Теми и уроци</h2>';
+    let html = '';
 
     if (!structure || structure.length === 0) {
         html += '<p>Няма намерени уроци.</p>';
-    } else {
+    }
+    else
+    {
         html += '<ul>';
-        for (const topic of structure) {
+        for (const topic of structure)
+        {
             const topicReadmeLink = topic.readme
-                  ? `<a href="${GITHUB_BLOB_URL}/${topic.readme}" target="_blank">📄 ${topic.name}</a>`
-                  : `<span>📁 ${topic.name}</span>`;
+                  ? `<a href="${GITHUB_BLOB_URL}/${topic.readme}" target="_blank">${topic.name}</a>`
+                  : `<span>${topic.name}</span>`;
 
-            html += `<li class="topic">${topicReadmeLink} <span class="path">(${topic.path}/)</span>`;
+            html += `<li class="topic">${topicReadmeLink}`;
 
-            if (topic.lessons.length > 0) {
-                topic.lessons.sort((a, b) => a.name.localeCompare(b.name));
-                html += '<ul>';
-                for (const lesson of topic.lessons) {
-                    html += `<li class="lesson">📘 <a href="${GITHUB_BLOB_URL}/${lesson.readme}" target="_blank">${lesson.name}</a> <span class="path">(${lesson.path}/)</span></li>`;
-                }
-                html += '</ul>';
-            }
             html += '</li>';
         }
+
         html += '</ul>';
     }
-
-    html += `<hr><p>🔗 <a href="${GITHUB_BLOB_URL}/README.md" target="_blank">Виж основния README на хранилището</a></p>`;
 
     contentDiv.innerHTML = html;
 }
 
 async function main() {
-    try {
-        const paths_url = `${GITHUB_RAW_URL}/${PATHS_FILE}`;
-        const response = await fetch(paths_url);
-        if (!response.ok) {
-            throw new Error(`Не може да се зареди ${paths_url} (HTTP ${response.status})`);
-        }
-        const text = await response.text();
-        const lines = text.split('\n');
-        const structure = buildStructure(lines);
-        renderHomepage(structure);
-    } catch (error) {
-        console.error(error);
-        document.getElementById('content').innerHTML = `<div class="error">❌ Грешка: ${error.message}</div>`;
+    const paths_url = `${GITHUB_RAW_URL}/${PATHS_FILE}`;
+    const response = await fetch(paths_url);
+    if (!response.ok) {
+        console.logError(`Не може да се зареди ${paths_url} (HTTP ${response.status})`);
+        return;
     }
+
+    const text = await response.text();
+    const lines = text.split('\n');
+    const content = await buildContent(lines);
+
+    renderHomepage(content);
 }
 
 window.addEventListener('DOMContentLoaded', main);

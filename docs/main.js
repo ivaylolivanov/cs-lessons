@@ -16,15 +16,9 @@ async function buildContent(paths)
         if (!path)
             continue;
 
-        if (!path.endsWith('README.md'))
-            continue;
+        const isReadme = path.endsWith('README.md');
 
         const parts = path.split('/');
-        const isRootReadme = parts.length === 1;
-
-        if (isRootReadme)
-            continue;
-
         const lessonUrl = `${GITHUB_RAW_URL}/${path}`;
         const lessonDataResponse = await fetch(lessonUrl);
         if (!lessonDataResponse.ok)

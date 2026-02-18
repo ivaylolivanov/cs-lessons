@@ -2,6 +2,7 @@
 int lastNumber = number;
 int diff = 0;
 int length = 0;
+int maxLength = 0;
 
 do
 {
@@ -14,7 +15,16 @@ do
     }
     else
     {
+        if (length > maxLength)
+        {
+            maxLength = length;
+        }
+
+        diff = 0;
+        length = 0;
     }
 
     lastNumber = number;
 } while (number != 0);
+
+Console.WriteLine(maxLength + 1);

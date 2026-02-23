@@ -56,7 +56,12 @@ async function buildContent(paths)
         if (!isCode && !isReadme)
             console.logError("What are you then!?");
 
-        const parts = path.split('/');
+        let parts = [];
+        if (path.includes('\\'))
+            parts = path.split('\\');
+        else if (path.includes('/'))
+            parts = path.split('/');
+
         const topic = parts[0];
         let   subtopic = "";
         if ((parts.length >= 1) && (!parts[1].trim().includes('README')))
@@ -161,7 +166,8 @@ function renderPage(content)
             topicUl.appendChild(subtopicUl);
         }
 
-        topicUl.appendChild(subtopicUl);
+        if (subtopicUl)
+            topicUl.appendChild(subtopicUl);
     }
 
     contentDiv.appendChild(topicUl);

@@ -1,37 +1,67 @@
+:root
+{
+/* Core palette */
+  --bg-main: #221C28;
+  --bg-surface: #422834;
+  --bg-card: #373828;
+  --border-soft: #575563;
+  --accent-gold: #BBA786;
+
+  /* Derived */
+  --text-main: #E8E1D4;
+  --text-muted: #8A8696;
+}
+
 body
 {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    line-height: 1.6;
+    line-height: 1.7;
     margin: 0;
-    padding: 20px;
-    background: #f6f8fa;
-    color: #24292e;
+    padding: 0;
+    width: 100%;
+    background: radial-gradient(circle at top, var(--bg-main), var(--bg-surface));
+    color: var(--text-main);
+    justify-content: center;
 }
 
 .container
 {
-    max-width: 1000px;
-    margin: 0 auto;
-    background: white;
-    padding: 30px;
+    margin: 0;
+    padding: 0;
+    width: 60%;
+    background: var(--color-red);
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px var(--color-purple);
+
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 h1
 {
     text-align: center;
+    color: var(--accent-gold);
+}
+
+h2
+{
+    color: var(--text-main);
 }
 
 ul
 {
     list-style: none;
-    padding-left: 0;
 }
 
 li
 {
     margin: 8px 0;
+}
+
+.capitalize
+{
+    text-transform: capitalize;
 }
 
 .topic
@@ -41,35 +71,25 @@ li
     margin-top: 16px;
 }
 
-.lesson
-{
-    margin-left: 24px;
-    font-size: 0.95em;
-}
-
 a
 {
-    color: #0366d6;
+    color: var(--accent-gold);
     text-decoration: none;
+    font-weight: 500;
+    position: relative;
 }
 
-a:hover
-{
-    text-decoration: underline;
+a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    width: 0;
+    height: 1px;
+    background: var(--accent-gold);
+    transition: width 0.3s ease;
 }
 
-.error
-{
-    color: #cb2431;
-    background: #ffeef0;
-    padding: 16px;
-    border-radius: 6px;
-}
-
-.path
-{
-    font-family: monospace;
-    font-size: 0.9em;
-    color: #586069;
-    margin-left: 6px;
+a:hover::after {
+  width: 100%;
 }

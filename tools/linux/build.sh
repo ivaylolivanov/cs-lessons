@@ -15,9 +15,17 @@ function generate_files_list()
 
     for file_readme in "${readme_files[@]}"; do
         directory="$(dirname "${file_readme}")";
-        cs_files=( $(IFS=$'\n'; find "${directory}" -type f -iname "Program.cs") );
+        readarray -t cs_files < <(
+            find "$directory"                   \
+                \( -type d                      \
+                \( -name obj -o -name bin \) \) \
+                   -prune -o                    \
+                   -type f                      \
+                   -iname "*.cs"                \
+                   -print;
+        )
 
-        echo "${file_readme}";
+        echo "${file_readme#${REPO_ROOT}/}";
         for file_cs in "${cs_files[@]}"; do
             echo "${file_cs#${REPO_ROOT}/}";
         done

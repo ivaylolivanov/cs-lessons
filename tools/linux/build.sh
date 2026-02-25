@@ -11,7 +11,13 @@ function generate_files_list()
     local directory='';
 
     local cs_files=();
-    local readme_files=( $(IFS=$'\n'; find "${REPO_ROOT}" -type f -iname "readme.md";) );
+    local readme_files=();
+
+    readarray -t readme_files < <(
+        find "${REPO_ROOT}" \
+             -type f        \
+             -iname "readme.md";
+    );
 
     for file_readme in "${readme_files[@]}"; do
         directory="$(dirname "${file_readme}")";
@@ -23,7 +29,7 @@ function generate_files_list()
                    -type f                      \
                    -iname "*.cs"                \
                    -print;
-        )
+        );
 
         echo "${file_readme#${REPO_ROOT}/}";
         for file_cs in "${cs_files[@]}"; do

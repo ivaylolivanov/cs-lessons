@@ -14,9 +14,9 @@ function generate_files_list()
     local readme_files=();
 
     readarray -t readme_files < <(
-        find "${REPO_ROOT}" \
-             -type f        \
-             -iname "readme.md";
+        find "${REPO_ROOT}"    \
+            -type f            \
+            -iname "readme.md" | sort --unique;
     );
 
     for file_readme in "${readme_files[@]}"; do

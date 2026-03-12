@@ -18,6 +18,7 @@ homework-example/Program.cs
 first-term-review/loops/task2/Program.cs
 first-term-review/loops/loops-basics/Program.cs
 first-term-review/loops/task1/Program.cs
+first-term-review/exam-solutions/task1/Program.cs
 first-term-review/variables/self-intro/Program.cs
 first-term-review/variables/movie-present/Program.cs
 first-term-review/arrays/task2/Program.cs
@@ -63,6 +64,7 @@ first-term-review/README.md
 first-term-review/loops/task2/Program.cs
 first-term-review/loops/loops-basics/Program.cs
 first-term-review/loops/task1/Program.cs
+first-term-review/exam-solutions/task1/Program.cs
 first-term-review/variables/self-intro/Program.cs
 first-term-review/variables/movie-present/Program.cs
 first-term-review/arrays/task2/Program.cs

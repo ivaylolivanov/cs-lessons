@@ -141,7 +141,7 @@ function renderPage(content)
                     if (item[1].subtopics.readme)
                     {
                         const subtopicReadmeLi = document.createElement('li');
-                        const subtopicReadmeLink = createLink(item[1].readme, "Бележки");
+                        const subtopicReadmeLink = createLink(item[1].readme, 'Бележки');
                         subtopicReadmeLi.appendChild(subtopicReadmeLi);
 
                         examplesUl.appendChild(subtopicReadmeLi);
@@ -153,7 +153,12 @@ function renderPage(content)
                         ++counter;
                         const exampleLi = document.createElement('li');
 
-                        const exampleLink = createLink(example, `Пример ${counter}`);
+                        const tokens = example.split("/");
+                        let name = tokens[tokens.length - 1];
+                        if (tokens.length > 2)
+                            name = tokens[tokens.length - 2];
+
+                        const exampleLink = createLink(example, `${name}`);
                         exampleLi.appendChild(exampleLink);
 
                         examplesUl.appendChild(exampleLi);

@@ -28,14 +28,14 @@ function generate_files_list()
                    -prune -o                    \
                    -type f                      \
                    -iname "*.cs"                \
-                   -print;
+                   -print                       \
+                | sort --unique;
         );
 
         echo "${file_readme#${REPO_ROOT}/}";
-        for file_cs in "${cs_files[@]}"; do
-            echo "${file_cs#${REPO_ROOT}/}";
-        done
     done
+
+    printf "%s\n" "${cs_files[@]}" | sort --unique;
 }
 
 mkdir -pv "$OUTPUT_DIR";

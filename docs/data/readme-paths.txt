@@ -1,5 +1,6 @@
 arrays/README.md
 first-term-review/README.md
+functions/README.md
 homework-example/README.md
 introduction/ascii/README.md
 introduction/conditions/README.md
@@ -11,6 +12,7 @@ loops/exam-tasks/README.md
 loops/introduction/README.md
 loops/loops-exercise/README.md
 loops/README.md
+monogame/README.md
 README.md
 /home/ivaylo/Projects/cs-lessons/arrays/arrays-exercise/Program.cs
 /home/ivaylo/Projects/cs-lessons/arrays/battleships-1d/Program.cs
@@ -31,6 +33,7 @@ README.md
 /home/ivaylo/Projects/cs-lessons/first-term-review/simple-operations/Program.cs
 /home/ivaylo/Projects/cs-lessons/first-term-review/variables/movie-present/Program.cs
 /home/ivaylo/Projects/cs-lessons/first-term-review/variables/self-intro/Program.cs
+/home/ivaylo/Projects/cs-lessons/functions/introduction/Program.cs
 /home/ivaylo/Projects/cs-lessons/homework-example/Program.cs
 /home/ivaylo/Projects/cs-lessons/introduction/ascii/Program.cs
 /home/ivaylo/Projects/cs-lessons/introduction/conditions/Program.cs
@@ -45,3 +48,6 @@ README.md
 /home/ivaylo/Projects/cs-lessons/loops/exam-tasks/game-guess/Program.cs
 /home/ivaylo/Projects/cs-lessons/loops/introduction/Program.cs
 /home/ivaylo/Projects/cs-lessons/loops/loops-exercise/Program.cs
+/home/ivaylo/Projects/cs-lessons/monogame/first-game/Game1.cs
+/home/ivaylo/Projects/cs-lessons/monogame/first-game/Player.cs
+/home/ivaylo/Projects/cs-lessons/monogame/first-game/Program.cs

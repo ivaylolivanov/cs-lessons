@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -12,6 +11,7 @@ public class Game1 : Game
     private Texture2D _squareTexture;
     private Vector2 _playerPosition;
     private Vector2 _playerSize;
+    private float _ground;
 
     public Game1()
     {
@@ -26,6 +26,7 @@ public class Game1 : Game
     protected override void Initialize()
     {
         _playerSize = new Vector2(40, 65);
+        _ground = 400;
 
         base.Initialize();
     }
@@ -54,7 +55,7 @@ public class Game1 : Game
             _playerPosition.X++;
         }
 
-        if (_playerPosition.Y < 400)
+        if (_playerPosition.Y < _ground)
         {
             _playerPosition.Y++;
         }
@@ -76,6 +77,17 @@ public class Game1 : Game
                 (int)_playerSize.X,
                 (int)_playerSize.Y),
             Color.Beige);
+
+        _spriteBatch.Draw(
+            _squareTexture,
+            new Rectangle(
+                0,
+                (int)_ground + 5,
+                100,
+                100
+            ),
+            Color.DarkRed
+        );
 
         _spriteBatch.End();
 

@@ -13,6 +13,8 @@ public class Game1 : Game
     private Vector2 _playerSize;
     private float _ground;
 
+    private Player _player;
+
     public Game1()
     {
         _graphics = new GraphicsDeviceManager(this);
@@ -21,6 +23,11 @@ public class Game1 : Game
 
         _graphics.PreferredBackBufferWidth  = 1280;
         _graphics.PreferredBackBufferHeight = 800;
+
+        _player = new Player(
+            new Vector2(100, 100),
+            new Vector2(40, 65)
+        );
     }
 
     protected override void Initialize()
@@ -55,7 +62,7 @@ public class Game1 : Game
             _playerPosition.X++;
         }
 
-        if (_playerPosition.Y < _ground)
+        if (_playerPosition.Y < (_ground - _playerSize.Y))
         {
             _playerPosition.Y++;
         }
@@ -80,12 +87,7 @@ public class Game1 : Game
 
         _spriteBatch.Draw(
             _squareTexture,
-            new Rectangle(
-                0,
-                (int)_ground + 5,
-                100,
-                100
-            ),
+            new Rectangle(0, (int)_ground, 100, 100),
             Color.DarkRed
         );
 

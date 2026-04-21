@@ -4,6 +4,8 @@ const COLOR_GREEN  = "#373828";
 const COLOR_YELLOW = "#BBA786";
 const COLOR_BLUE   = "#575563";
 
+let globalContents = null;
+
 const REPO_OWNER = 'ivaylolivanov';
 const REPO_NAME = 'cs-lessons';
 const BRANCH = 'main';
@@ -63,11 +65,14 @@ async function buildContent(paths)
             parts = path.split('/');
 
         const topic = parts[0];
-        let   subtopic = "";
-        if ((parts.length >= 1) && (!parts[1].trim().includes('README')))
+        if (!topic)
+            continue;
+
+        let subtopic = "";
+        if ((parts.length >= 2) && (!parts[1].trim().includes('README')))
             subtopic = parts[1];
 
-        if (topic && !contents.has(topic))
+        if (!contents.has(topic))
             contents.set(topic, new Node(topic));
 
         if (subtopic && !contents.get(topic).subtopics.has(subtopic))
@@ -187,9 +192,9 @@ async function main()
 
     const text = await response.text();
     const lines = text.split('\n');
-    const content = await buildContent(lines);
+    globalContents = await buildContent(lines);
 
-    renderPage(content);
+    renderPage(globalContents);
 }
 
 window.addEventListener('DOMContentLoaded', main);

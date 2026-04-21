@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework.Input;
 
 public class Player
 {
+    private float _movementSpeed;
+
     public Vector2 Position;
     public Vector2 Size;
 
@@ -11,9 +13,18 @@ public class Player
     {
         Position = position;
         Size = size;
+
+        _movementSpeed = 3;
     }
 
     public void Draw()
     {
+    }
+
+    public void Move(Vector2 step, float deltaTime)
+    {
+        step.Normalize();
+
+        Position += step * _movementSpeed * deltaTime;
     }
 }

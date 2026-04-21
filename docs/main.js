@@ -93,7 +93,7 @@ function renderPage(content)
     contentDiv.innerHTML = "";
     let html = '';
 
-    if (!content || content.length === 0)
+    if (!content || content.size === 0)
     {
         html += '<p>Няма намерени уроци.</p>';
         contentDiv.innerHTML = html;
@@ -138,11 +138,11 @@ function renderPage(content)
 
                 if (examplesUl)
                 {
-                    if (item[1].subtopics.readme)
+                    if (subitem[1].readme)
                     {
                         const subtopicReadmeLi = document.createElement('li');
-                        const subtopicReadmeLink = createLink(item[1].readme, 'Бележки');
-                        subtopicReadmeLi.appendChild(subtopicReadmeLi);
+                        const subtopicReadmeLink = createLink(subitem[1].readme, 'Бележки');
+                        subtopicReadmeLi.appendChild(subtopicReadmeLink);
 
                         examplesUl.appendChild(subtopicReadmeLi);
                     }
@@ -168,11 +168,8 @@ function renderPage(content)
                 }
             }
 
-            topicUl.appendChild(subtopicUl);
+            topicLi.appendChild(subtopicUl);
         }
-
-        if (subtopicUl)
-            topicUl.appendChild(subtopicUl);
     }
 
     contentDiv.appendChild(topicUl);

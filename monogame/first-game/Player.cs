@@ -14,17 +14,19 @@ public class Player
         Position = position;
         Size = size;
 
-        _movementSpeed = 3;
+        _movementSpeed = 300;
     }
 
     public void Draw()
     {
     }
 
-    public void Move(Vector2 step, float deltaTime)
+    public void Move(Vector2 direction, float deltaTime)
     {
-        step.Normalize();
+        if (direction == Vector2.Zero)
+            return;
 
-        Position += step * _movementSpeed * deltaTime;
+        direction.Normalize();
+        Position += direction * _movementSpeed * deltaTime;
     }
 }

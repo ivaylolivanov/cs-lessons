@@ -12,6 +12,8 @@ public class Game1 : Game
     private float _ground;
     private float _jumpTimer;
 
+    private Texture2D _background;
+
     private Player _player;
 
     public Game1()
@@ -40,6 +42,8 @@ public class Game1 : Game
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+        _background = Content.Load<Texture2D>("Images/background");
 
         _squareTexture = new Texture2D(GraphicsDevice, 1, 1);
         _squareTexture.SetData(new[] { Color.Beige });
@@ -89,6 +93,9 @@ public class Game1 : Game
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
         _spriteBatch.Begin();
+
+        _spriteBatch.Draw(
+            _background, Vector2.Zero, Color.White);
 
         _spriteBatch.Draw(
             _squareTexture,

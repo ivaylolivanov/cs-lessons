@@ -9,6 +9,7 @@ public class Game1 : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
     private Texture2D _squareTexture;
+    private Vector2 _screenSize;
     private float _ground;
     private float _jumpTimer;
 
@@ -22,14 +23,15 @@ public class Game1 : Game
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
 
-        _graphics.PreferredBackBufferWidth  = 1280;
-        _graphics.PreferredBackBufferHeight = 800;
+        _screenSize = new Vector2(1280, 720);
+        _graphics.PreferredBackBufferWidth  = (int)_screenSize.X;
+        _graphics.PreferredBackBufferHeight = (int)_screenSize.Y;
     }
 
     protected override void Initialize()
     {
         _jumpTimer = 0;
-        _ground = 400;
+        _ground = _screenSize.Y;
 
         _player = new Player(
             new Vector2(50, 335),
@@ -71,7 +73,7 @@ public class Game1 : Game
         if (Keyboard.GetState().IsKeyDown(Keys.Space)
             && (_jumpTimer <= 0))
         {
-            direction.Y = -1;
+            direction.Y = -100;
             _jumpTimer = 1;
         }
 
@@ -105,12 +107,6 @@ public class Game1 : Game
                 (int)_player.Size.X,
                 (int)_player.Size.Y),
             Color.Beige);
-
-        _spriteBatch.Draw(
-            _squareTexture,
-            new Rectangle(0, (int)_ground, 100, 100),
-            Color.DarkRed
-        );
 
         _spriteBatch.End();
 

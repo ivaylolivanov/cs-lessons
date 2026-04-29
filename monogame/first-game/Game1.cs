@@ -6,11 +6,12 @@ namespace first_game;
 
 public class Game1 : Game
 {
+    public static float Ground = 720;
+
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
     private Texture2D _squareTexture;
-    private float _ground;
-    private float _jumpTimer;
+    private Vector2 _screenSize = new Vector2(1280, Ground);
 
     private Texture2D _background;
 
@@ -22,15 +23,12 @@ public class Game1 : Game
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
 
-        _graphics.PreferredBackBufferWidth  = 1280;
-        _graphics.PreferredBackBufferHeight = 800;
+        _graphics.PreferredBackBufferWidth  = (int)_screenSize.X;
+        _graphics.PreferredBackBufferHeight = (int)_screenSize.Y;
     }
 
     protected override void Initialize()
     {
-        _jumpTimer = 0;
-        _ground = 400;
-
         _player = new Player(
             new Vector2(50, 335),
             new Vector2(40, 65)
@@ -52,38 +50,32 @@ public class Game1 : Game
     protected override void Update(GameTime gameTime)
     {
         float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+        GamePadState gamePad = GamePad.GetState(PlayerIndex.One);
+        KeyboardState keyboard = Keyboard.GetState();
 
-        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed
-            || Keyboard.GetState().IsKeyDown(Keys.Escape))
+        bool isBackPressed = (gamePad.Buttons.Back == ButtonState.Pressed)
+            || keyboard.IsKeyDown(Keys.Escape);
+        if (isBackPressed)
             Exit();
 
-        Vector2 direction = new Vector2();
-        if (Keyboard.GetState().IsKeyDown(Keys.A))
+        float direction = 0f;
+        if (keyboard.IsKeyDown(Keys.A))
         {
-            direction.X = -1;
+            direction = -1;
         }
 
-        if (Keyboard.GetState().IsKeyDown(Keys.D))
+        if (keyboard.IsKeyDown(Keys.D))
         {
-            direction.X = 1;
+            direction = 1;
         }
 
-        if (Keyboard.GetState().IsKeyDown(Keys.Space)
-            && (_jumpTimer <= 0))
+        if (keyboard.IsKeyDown(Keys.Space))
         {
-            direction.Y = -1;
-            _jumpTimer = 1;
+            _player.Jump();
         }
 
-        if (_jumpTimer >= 0)
-            _jumpTimer -= deltaTime;
-
-        _player.Move(direction, deltaTime);
-
-        if (_player.Position.Y < (_ground - _player.Size.Y))
-        {
-            _player.Position.Y++;
-        }
+        _player.SetDirection(direction);
+        _player.Update(deltaTime);
 
         base.Update(gameTime);
     }
@@ -105,12 +97,6 @@ public class Game1 : Game
                 (int)_player.Size.X,
                 (int)_player.Size.Y),
             Color.Beige);
-
-        _spriteBatch.Draw(
-            _squareTexture,
-            new Rectangle(0, (int)_ground, 100, 100),
-            Color.DarkRed
-        );
 
         _spriteBatch.End();
 

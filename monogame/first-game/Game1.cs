@@ -16,6 +16,7 @@ public class Game1 : Game
     private Texture2D _background;
 
     private Player _player;
+    private Rectangle[] _platforms;
 
     public Game1()
     {
@@ -33,6 +34,12 @@ public class Game1 : Game
             new Vector2(50, 335),
             new Vector2(40, 65)
         );
+
+        _platforms = new[]
+        {
+            new Rectangle(200, 600, 200, 20),
+            new Rectangle(400, 480, 200, 20),
+        };
 
         base.Initialize();
     }
@@ -76,6 +83,7 @@ public class Game1 : Game
 
         _player.SetDirection(direction);
         _player.Update(deltaTime);
+        ResolveCollisions();
 
         base.Update(gameTime);
     }
@@ -89,6 +97,9 @@ public class Game1 : Game
         _spriteBatch.Draw(
             _background, Vector2.Zero, Color.White);
 
+        foreach (var p in _platforms)
+            _spriteBatch.Draw(_squareTexture, p, Color.Brown);
+
         _spriteBatch.Draw(
             _squareTexture,
             new Rectangle(
@@ -101,5 +112,29 @@ public class Game1 : Game
         _spriteBatch.End();
 
         base.Draw(gameTime);
+    }
+
+    private void ResolveCollisions()
+    {
+        if (_player.Position.Y + _player.Size.Y >= Ground)
+        {
+            _player.Position.Y = Ground - _player.Size.Y;
+            _player.Velocity.Y = 0;
+        }
+
+        foreach (var p in _platforms)
+        {
+            bool withinX = _player.Position.X + _player.Size.X > p.Left
+                        && _player.Position.X < p.Right;
+            bool crossedTop = _player.Velocity.Y > 0
+                           && _player.Position.Y + _player.Size.Y >= p.Top
+                           && _player.Position.Y + _player.Size.Y <= p.Bottom;
+
+            if (withinX && crossedTop)
+            {
+                _player.Position.Y = p.Top - _player.Size.Y;
+                _player.Velocity.Y = 0;
+            }
+        }
     }
 }

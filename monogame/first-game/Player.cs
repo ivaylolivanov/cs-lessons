@@ -13,30 +13,21 @@ public class Player
     public Vector2 Position;
     public Vector2 Size;
 
-    private Vector2 _velocity;
+    public Vector2 Velocity;
 
     public Player(Vector2 position, Vector2 size)
     {
         Position = position;
         Size = size;
 
-        _velocity = Vector2.Zero;
+        Velocity = Vector2.Zero;
     }
 
     public void Update(float dt)
     {
-        if (Position.Y < (Game1.Ground - Size.Y))
-        {
-            _velocity.Y += _gravity * dt;
-        }
-        else if (_velocity.Y > 0)
-        {
-            Position.Y = Game1.Ground - Size.Y;
-            _velocity.Y = 0;
-        }
-
-        Position.X += _velocity.X * _movementSpeed * dt;
-        Position.Y += _velocity.Y * dt;
+        Velocity.Y += _gravity * dt;
+        Position.X += Velocity.X * _movementSpeed * dt;
+        Position.Y += Velocity.Y * dt;
     }
 
     public void Draw()
@@ -45,14 +36,14 @@ public class Player
 
     public void Jump()
     {
-        if (_velocity.Y == 0)
+        if (Velocity.Y == 0)
         {
-            _velocity.Y -= _jumpForce;
+            Velocity.Y -= _jumpForce;
         }
     }
 
     public void SetDirection(float direction)
     {
-        _velocity.X = direction;
+        Velocity.X = direction;
     }
 }

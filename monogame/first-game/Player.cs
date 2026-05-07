@@ -8,14 +8,12 @@ public class Player
 {
     private const float _gravity = 980;
     private const float _movementSpeed = 300;
-    private const float _jumpForce = 600;
-    private const float _jumpTime = 0.5f;
+    private const float _jumpForce = 500;
 
     public Vector2 Position;
     public Vector2 Size;
 
     private Vector2 _velocity;
-    private float _jumpTimer = 0;
 
     public Player(Vector2 position, Vector2 size)
     {
@@ -23,18 +21,19 @@ public class Player
         Size = size;
 
         _velocity = Vector2.Zero;
-        _jumpTimer = 0;
     }
 
     public void Update(float dt)
     {
-        if (_jumpTimer > 0)
-            _jumpTimer -= dt;
-
         if (Position.Y < (Game1.Ground - Size.Y))
+        {
             _velocity.Y += _gravity * dt;
-        else
+        }
+        else if (_velocity.Y > 0)
+        {
             Position.Y = Game1.Ground - Size.Y;
+            _velocity.Y = 0;
+        }
 
         Position.X += _velocity.X * _movementSpeed * dt;
         Position.Y += _velocity.Y * dt;
@@ -46,10 +45,9 @@ public class Player
 
     public void Jump()
     {
-        if (_jumpTimer <= 0f)
+        if (_velocity.Y == 0)
         {
             _velocity.Y -= _jumpForce;
-            _jumpTimer = _jumpTime;
         }
     }
 

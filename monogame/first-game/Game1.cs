@@ -11,11 +11,12 @@ public class Game1 : Game
     private Texture2D _squareTexture;
     private Vector2 _screenSize;
     private float _ground;
-    private float _jumpTimer;
 
     private Texture2D _background;
 
     private Player _player;
+
+    private Rectangle[] _platforms;
 
     public Game1()
     {
@@ -26,11 +27,15 @@ public class Game1 : Game
         _screenSize = new Vector2(1280, 720);
         _graphics.PreferredBackBufferWidth  = (int)_screenSize.X;
         _graphics.PreferredBackBufferHeight = (int)_screenSize.Y;
+
+        _platforms = new Rectangle[3];
+        _platforms[0] = new Rectangle(200, 600, 275, 40);
+        _platforms[1] = new Rectangle(400, 400, 275, 40);
+        _platforms[2] = new Rectangle(600, 200, 275, 40);
     }
 
     protected override void Initialize()
     {
-        _jumpTimer = 0;
         _ground = _screenSize.Y;
 
         _player = new Player(
@@ -97,6 +102,14 @@ public class Game1 : Game
 
         _spriteBatch.Draw(
             _background, Vector2.Zero, Color.White);
+
+        for (int i = 0; i < _platforms.Length; ++i)
+        {
+            _spriteBatch.Draw(
+                _squareTexture,
+                _platforms[i],
+                Color.RosyBrown);
+        }
 
         _spriteBatch.Draw(
             _squareTexture,

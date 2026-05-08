@@ -5,13 +5,14 @@ using Microsoft.Xna.Framework.Input;
 public class Player
 {
     private const float _gravity = 9.8f;
+    private const float _jumpForce = 450f;
 
     private float _movementSpeed;
 
     public Vector2 Position;
     public Vector2 Size;
 
-    private Vector2 _velocity;
+    public Vector2 Velocity;
 
     public Player(Vector2 position, Vector2 size)
     {
@@ -23,10 +24,15 @@ public class Player
 
     public void Update(float dt)
     {
-        _velocity.Y += _gravity;
+        Velocity.Y += _gravity;
 
-        Position.X += _velocity.X * _movementSpeed * dt;
-        Position.Y += _velocity.Y * _gravity * dt;
+        Position.X += Velocity.X * _movementSpeed * dt;
+        Position.Y += Velocity.Y * dt;
+    }
+
+    public void Jump()
+    {
+        Velocity.Y -= _jumpForce;
     }
 
     public void Draw()
@@ -35,6 +41,6 @@ public class Player
 
     public void SetDirection(Vector2 direction)
     {
-        _velocity.X += direction.X;
+        Velocity.X = direction.X;
     }
 }

@@ -25,7 +25,7 @@ public class Player
 
     public void Update(float dt)
     {
-        Velocity.Y += _gravity * dt;
+        Velocity.Y += _gravity;
         Position.X += Velocity.X * _movementSpeed * dt;
         Position.Y += Velocity.Y * dt;
     }

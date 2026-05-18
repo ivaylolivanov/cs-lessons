@@ -18,3 +18,6 @@ Console.WriteLine(17 % 2);
 int number = 31;
 float realNumber = 17.63f;
 Console.WriteLine(number + realNumber);
+
+bool isTodayAGoodDay = true;
+bool shouldINotEatPizza = false;

@@ -54,6 +54,10 @@ public class Game1 : Game
 
         _squareTexture = new Texture2D(GraphicsDevice, 1, 1);
         _squareTexture.SetData(new[] { Color.Beige });
+
+        Texture2D playerTexture = new Texture2D(GraphicsDevice, 1, 1);
+        playerTexture.SetData(new[] { Color.Beige });
+        _player.LoadContent(playerTexture);
     }
 
     protected override void Update(GameTime gameTime)
@@ -113,14 +117,7 @@ public class Game1 : Game
                 Color.RosyBrown);
         }
 
-        _spriteBatch.Draw(
-            _squareTexture,
-            new Rectangle(
-                (int)_player.Position.X,
-                (int)_player.Position.Y,
-                (int)_player.Size.X,
-                (int)_player.Size.Y),
-            Color.Beige);
+        _player.Draw(_spriteBatch);
 
         _spriteBatch.End();
 

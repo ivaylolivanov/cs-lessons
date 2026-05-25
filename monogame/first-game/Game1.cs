@@ -145,7 +145,7 @@ public class Game1 : Game
                 }
                 else
                 {
-                    _player.Velocity.Y *= -1;
+                    _player.Velocity.Y = 0.1f;
                 }
             }
         }

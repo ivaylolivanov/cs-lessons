@@ -17,6 +17,7 @@ public class Game1 : Game
     private Player _player;
 
     private Rectangle[] _platforms;
+    private Enemy[] _enemies;
 
     public Game1()
     {
@@ -34,6 +35,8 @@ public class Game1 : Game
         _platforms[2] = new Rectangle(350, 300, 275, 40);
         _platforms[3] = new Rectangle(675, 250, 55, 400);
         _platforms[4] = new Rectangle(1000, 450, 150, 75);
+
+        _enemies = new Enemy[3];
     }
 
     protected override void Initialize()
@@ -42,7 +45,12 @@ public class Game1 : Game
 
         _player = new Player(
             new Vector2(50, 335),
-            new Vector2(40, 65)
+            new Vector2(60, 75)
+        );
+
+        _enemies[0] = new Enemy(
+            new Vector2(500, 335),
+            new Vector2(100, 100)
         );
 
         base.Initialize();
@@ -59,6 +67,9 @@ public class Game1 : Game
 
         Texture2D playerTexture = Content.Load<Texture2D>("Images/main-character");
         _player.LoadContent(playerTexture);
+
+        Texture2D enemyTexture = Content.Load<Texture2D>("Images/goofy-goblin");
+        _enemies[0].LoadContent(enemyTexture);
     }
 
     protected override void Update(GameTime gameTime)
@@ -90,12 +101,20 @@ public class Game1 : Game
         _player.Update(deltaTime);
         _player.SetDirection(direction);
 
+        _enemies[0].Update(deltaTime, _player);
+
         ResolveCollisions();
 
         if ((_player.Position.Y + _player.Size.Y) >= _ground)
         {
             _player.Velocity.Y = 0;
             _player.Position.Y = _ground - _player.Size.Y;
+        }
+
+        if ((_enemies[0].Position.Y + _enemies[0].Size.Y) >= _ground)
+        {
+            _enemies[0].Velocity.Y = 0;
+            _enemies[0].Position.Y = _ground - _enemies[0].Size.Y;
         }
 
         base.Update(gameTime);
@@ -118,6 +137,7 @@ public class Game1 : Game
                 Color.RosyBrown);
         }
 
+        _enemies[0].Draw(_spriteBatch);
         _player.Draw(_spriteBatch);
 
         _spriteBatch.End();

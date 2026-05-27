@@ -47,14 +47,7 @@ public class Player
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        spriteBatch.Draw(
-            _texture,
-            new Rectangle(
-                (int)Position.X,
-                (int)Position.Y,
-                (int)Size.X,
-                (int)Size.Y),
-            Color.Beige);
+        spriteBatch.Draw(_texture, Collider, Color.White);
     }
 
     public void SetDirection(Vector2 direction)

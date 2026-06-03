@@ -14,6 +14,7 @@ public class Game1 : Game
 
     private Texture2D _background;
     private Texture2D _platformTexture;
+    private Texture2D _platformsSpriteSheet;
 
     private Player _player;
 
@@ -53,6 +54,7 @@ public class Game1 : Game
 
         _background = Content.Load<Texture2D>("Images/background");
         _platformTexture = Content.Load<Texture2D>("Images/platform-stone");
+        _platformsSpriteSheet = Content.Load<Texture2D>("Images/platforms");
 
         _squareTexture = new Texture2D(GraphicsDevice, 1, 1);
         _squareTexture.SetData(new[] { Color.Beige });
@@ -113,9 +115,11 @@ public class Game1 : Game
         for (int i = 0; i < _platforms.Length; ++i)
         {
             _spriteBatch.Draw(
-                _platformTexture,
+                _platformsSpriteSheet,
                 _platforms[i],
-                Color.RosyBrown);
+                new Rectangle(100,128, 864, 128),
+                Color.White
+            );
         }
 
         _player.Draw(_spriteBatch);

@@ -10,6 +10,7 @@ public class Player
     private float _movementSpeed;
     private Texture2D _texture;
 
+    public Rectangle Collider;
     public Vector2 Position;
     public Vector2 Size;
 
@@ -21,6 +22,7 @@ public class Player
         Size = size;
 
         _movementSpeed = 300;
+        Collider = new Rectangle(Position.ToPoint(), Size.ToPoint());
     }
 
     public void LoadContent(Texture2D texture)
@@ -34,6 +36,9 @@ public class Player
 
         Position.X += Velocity.X * _movementSpeed * dt;
         Position.Y += Velocity.Y * dt;
+
+        Collider.X = (int)Position.X;
+        Collider.Y = (int)Position.Y;
     }
 
     public void Jump()

@@ -98,6 +98,7 @@ public class Game1 : Game
         {
             _player.Velocity.Y = 0;
             _player.Position.Y = _ground - _player.Size.Y;
+            _player.Collider.Location = _player.Position.ToPoint();
         }
 
         base.Update(gameTime);
@@ -137,6 +138,7 @@ public class Game1 : Game
             if (collisionData == Vector2.Zero)
                 continue;
             _player.Position += collisionData;
+            _player.Collider.Location = _player.Position.ToPoint();
             if (collisionData.X != 0)
             {
                 _player.Velocity.X = 0;

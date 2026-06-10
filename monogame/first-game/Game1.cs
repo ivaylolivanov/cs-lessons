@@ -18,7 +18,7 @@ public class Game1 : Game
 
     private Player _player;
 
-    private Rectangle[] _platforms;
+    private Platform[] _platforms;
 
     public Game1()
     {
@@ -30,10 +30,19 @@ public class Game1 : Game
         _graphics.PreferredBackBufferWidth  = (int)_screenSize.X;
         _graphics.PreferredBackBufferHeight = (int)_screenSize.Y;
 
-        _platforms = new Rectangle[3];
-        _platforms[0] = new Rectangle(200, 600, 275, 40);
-        _platforms[1] = new Rectangle(400, 400, 275, 40);
-        _platforms[2] = new Rectangle(600, 200, 275, 40);
+        _platforms = new Platform[3];
+        _platforms[0] = new Platform(
+            new Vector2(200, 600),
+            new Vector2(275, 40)
+        );
+        _platforms[1] = new Platform(
+            new Vector2(400, 400),
+            new Vector2(275, 40)
+        );
+        _platforms[2] = new Platform(
+            new Vector2(600, 200),
+            new Vector2(275, 40)
+        );
     }
 
     protected override void Initialize()

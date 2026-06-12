@@ -70,6 +70,11 @@ public class Game1 : Game
 
         Texture2D playerTexture = Content.Load<Texture2D>("Images/main-character-sqr");
         _player.LoadContent(playerTexture);
+
+        for (int i = 0; i < _platforms.Length; i++)
+        {
+            _platforms[i].LoadContent(_platformsSpriteSheet);
+        }
     }
 
     protected override void Update(GameTime gameTime)
@@ -124,12 +129,7 @@ public class Game1 : Game
 
         for (int i = 0; i < _platforms.Length; ++i)
         {
-            _spriteBatch.Draw(
-                _platformsSpriteSheet,
-                _platforms[i],
-                new Rectangle(100,128, 864, 128),
-                Color.White
-            );
+            _platforms[i].Draw(_spriteBatch);
         }
 
         _player.Draw(_spriteBatch);
@@ -143,7 +143,8 @@ public class Game1 : Game
     {
         for (int i = 0; i < _platforms.Length; i++)
         {
-            Vector2 collisionData = GetCollisionData(_player.Collider, _platforms[i]);
+            Vector2 collisionData = GetCollisionData(
+                _player.Collider, _platforms[i].Collider);
             if (collisionData == Vector2.Zero)
                 continue;
             _player.Position += collisionData;

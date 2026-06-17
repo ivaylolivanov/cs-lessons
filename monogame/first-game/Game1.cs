@@ -17,6 +17,7 @@ public class Game1 : Game
     private Texture2D _platformsSpriteSheet;
 
     private Player _player;
+    private Enemy _enemy;
 
     private Platform[] _platforms;
 
@@ -54,6 +55,11 @@ public class Game1 : Game
             new Vector2(40, 65)
         );
 
+        _enemy = new Enemy(
+            new Vector2(50, 335),
+            new Vector2(40, 65)
+        );
+
         base.Initialize();
     }
 
@@ -70,6 +76,8 @@ public class Game1 : Game
 
         Texture2D playerTexture = Content.Load<Texture2D>("Images/main-character-sqr");
         _player.LoadContent(playerTexture);
+
+        _enemy.LoadContent(_squareTexture);
 
         for (int i = 0; i < _platforms.Length; i++)
         {
@@ -106,6 +114,8 @@ public class Game1 : Game
         _player.Update(deltaTime);
         _player.SetDirection(direction);
 
+        _enemy.Update(deltaTime);
+
         ResolveCollisions();
 
         if ((_player.Position.Y + _player.Size.Y) >= _ground)
@@ -113,6 +123,13 @@ public class Game1 : Game
             _player.Velocity.Y = 0;
             _player.Position.Y = _ground - _player.Size.Y;
             _player.Collider.Location = _player.Position.ToPoint();
+        }
+
+        if ((_enemy.Position.Y + _enemy.Size.Y) >= _ground)
+        {
+            _enemy.Velocity.Y = 0;
+            _enemy.Position.Y = _ground - _enemy.Size.Y;
+            _enemy.Collider.Location = _enemy.Position.ToPoint();
         }
 
         base.Update(gameTime);
@@ -133,6 +150,7 @@ public class Game1 : Game
         }
 
         _player.Draw(_spriteBatch);
+        _enemy.Draw(_spriteBatch);
 
         _spriteBatch.End();
 

@@ -13,6 +13,9 @@ public class Game1 : Game
     private Color _bgColor;
 
     private Texture2D _pixelTexture;
+
+    private Texture2D _playerTexture;
+
     private Vector2 _playerPosition;
     private Vector2 _obstaclePosition;
     private Vector2 _obstacleSize;
@@ -43,6 +46,7 @@ public class Game1 : Game
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
+        _playerTexture = Content.Load<Texture2D>("SpriteSheets/spritesheet-enemies-double");
 
         _pixelTexture.SetData(new[] { Color.BurlyWood });
     }
@@ -72,9 +76,9 @@ public class Game1 : Game
         Rectangle playerRect = new Rectangle(
             (int)_playerPosition.X,
             (int)_playerPosition.Y,
-            20,
-            20);
-        _spriteBatch.Draw(_pixelTexture, playerRect, Color.AliceBlue);
+            200,
+            200);
+        _spriteBatch.Draw(_playerTexture, playerRect, new Rectangle(256, 256, 128, 128), Color.AliceBlue);
 
         Rectangle obstacleRect = new Rectangle(
             (int)_obstaclePosition.X,

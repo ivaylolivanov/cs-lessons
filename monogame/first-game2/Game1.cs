@@ -10,26 +10,32 @@ public class Game1 : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 
-    private Color _bgColor;
-
     private Texture2D _pixelTexture;
 
     private Texture2D _playerTexture;
+    private Texture2D _bgTexture;
 
     private Vector2 _playerPosition;
     private Vector2 _obstaclePosition;
     private Vector2 _obstacleSize;
+
+    private Vector2 _screenSize;
 
     public Game1()
     {
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
+
+        _screenSize = new Vector2(1280, 720);
     }
 
     protected override void Initialize()
     {
-        _bgColor = Color.Orange;
+        _graphics.PreferredBackBufferWidth  = (int)_screenSize.X;
+        _graphics.PreferredBackBufferHeight = (int)_screenSize.Y;
+        _graphics.ApplyChanges();
+
         _pixelTexture =
             new Texture2D(_graphics.GraphicsDevice, 1, 1);
         _playerPosition = new Vector2(0, 0);
@@ -47,6 +53,7 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         _playerTexture = Content.Load<Texture2D>("SpriteSheets/spritesheet-enemies-double");
+        _bgTexture     = Content.Load<Texture2D>("SpriteSheets/background-mountain");
 
         _pixelTexture.SetData(new[] { Color.BurlyWood });
     }
@@ -69,16 +76,31 @@ public class Game1 : Game
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(_bgColor);
+        GraphicsDevice.Clear(Color.CornflowerBlue);
 
         _spriteBatch.Begin();
+
+        Rectangle _bgRectangle = new Rectangle(
+            0,
+            0,
+            (int)_screenSize.X,
+            (int)_screenSize.Y);
+        _spriteBatch.Draw(
+            _bgTexture,
+            _bgRectangle,
+            Color.White
+        );
 
         Rectangle playerRect = new Rectangle(
             (int)_playerPosition.X,
             (int)_playerPosition.Y,
-            200,
-            200);
-        _spriteBatch.Draw(_playerTexture, playerRect, new Rectangle(256, 256, 128, 128), Color.AliceBlue);
+            128,
+            128);
+        _spriteBatch.Draw(
+            _playerTexture,
+            playerRect,
+            new Rectangle(256, 256, 128, 128),
+            Color.AliceBlue);
 
         Rectangle obstacleRect = new Rectangle(
             (int)_obstaclePosition.X,

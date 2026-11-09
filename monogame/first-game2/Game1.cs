@@ -20,6 +20,8 @@ public class Game1 : Game
     private Vector2 _obstacleSize;
 
     private Vector2 _screenSize;
+    private float _gravity = 9.8f;
+    private double _lastTime = 0;
 
     public Game1()
     {
@@ -52,8 +54,10 @@ public class Game1 : Game
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
-        _playerTexture = Content.Load<Texture2D>("SpriteSheets/spritesheet-enemies-double");
-        _bgTexture     = Content.Load<Texture2D>("SpriteSheets/background-mountain");
+        _playerTexture = Content.Load<Texture2D>(
+            "SpriteSheets/spritesheet-enemies-double");
+        _bgTexture     = Content.Load<Texture2D>(
+            "SpriteSheets/background-mountain");
 
         _pixelTexture.SetData(new[] { Color.BurlyWood });
     }
@@ -64,7 +68,10 @@ public class Game1 : Game
             || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
 
-        _playerPosition.Y++;
+        double deltaTime = gameTime.TotalGameTime.TotalSeconds
+            - _lastTime;
+
+        _playerPosition.Y += _gravity * (float)deltaTime;
         --_obstaclePosition.X;
 
         if (_obstaclePosition.X <= 0)
@@ -72,6 +79,7 @@ public class Game1 : Game
                 - _obstacleSize.X;
 
         base.Update(gameTime);
+        _lastTime = gameTime.TotalGameTime.TotalSeconds;
     }
 
     protected override void Draw(GameTime gameTime)

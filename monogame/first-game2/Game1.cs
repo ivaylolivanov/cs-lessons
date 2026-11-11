@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -11,17 +10,19 @@ public class Game1 : Game
     private SpriteBatch _spriteBatch;
 
     private Texture2D _pixelTexture;
-
-    private Texture2D _playerTexture;
     private Texture2D _bgTexture;
 
+    private Texture2D _playerTexture;
     private Vector2 _playerPosition;
+    private Vector2 _playerVelocity;
+
     private Vector2 _obstaclePosition;
     private Vector2 _obstacleSize;
 
     private Vector2 _screenSize;
     private float _gravity = 9.8f;
     private double _lastTime = 0;
+    private const float _playerJumpForce = -400;
 
     public Game1()
     {
@@ -41,6 +42,7 @@ public class Game1 : Game
         _pixelTexture =
             new Texture2D(_graphics.GraphicsDevice, 1, 1);
         _playerPosition = new Vector2(0, 0);
+        _playerVelocity = Vector2.Zero;
 
         _obstacleSize = new Vector2(76, 128);
         _obstaclePosition = new Vector2(
@@ -71,7 +73,14 @@ public class Game1 : Game
         double deltaTime = gameTime.TotalGameTime.TotalSeconds
             - _lastTime;
 
-        _playerPosition.Y += _gravity * (float)deltaTime;
+        _playerVelocity.Y += _gravity * (float)deltaTime;
+        if (Keyboard.GetState().IsKeyDown(Keys.Space))
+        {
+            _playerVelocity.Y = _playerJumpForce * (float)deltaTime;
+        }
+
+        _playerPosition.Y += _playerVelocity.Y;
+
         --_obstaclePosition.X;
 
         if (_obstaclePosition.X <= 0)
@@ -108,7 +117,7 @@ public class Game1 : Game
             _playerTexture,
             playerRect,
             new Rectangle(256, 256, 128, 128),
-            Color.AliceBlue);
+            Color.White);
 
         Rectangle obstacleRect = new Rectangle(
             (int)_obstaclePosition.X,

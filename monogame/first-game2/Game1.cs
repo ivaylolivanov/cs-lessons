@@ -12,17 +12,24 @@ public class Game1 : Game
     private Texture2D _pixelTexture;
     private Texture2D _bgTexture;
 
-    private Texture2D _playerTexture;
-    private Vector2 _playerPosition;
-    private Vector2 _playerVelocity;
+    // Player stats:
+    private Texture2D   _playerTexture;
+    private Vector2     _playerPosition;
+    private Vector2     _playerVelocity;
+    private const float _playerJumpForce = -400;
+    private Rectangle   _playerRect;
 
-    private Vector2 _obstaclePosition;
-    private Vector2 _obstacleSize;
+    // Obstacle stats:
+    private Vector2   _obstaclePosition;
+    private Vector2   _obstacleSize;
+    private float     _obstacleSpeed = 125f;
+    private Rectangle _obstacleRect;
 
     private Vector2 _screenSize;
     private float _gravity = 9.8f;
     private double _lastTime = 0;
-    private const float _playerJumpForce = -400;
+
+    private int _score = 0;
 
     public Game1()
     {
@@ -43,12 +50,19 @@ public class Game1 : Game
             new Texture2D(_graphics.GraphicsDevice, 1, 1);
         _playerPosition = new Vector2(0, 0);
         _playerVelocity = Vector2.Zero;
+        _playerRect = new Rectangle(
+            (int)_playerPosition.X,
+            (int)_playerPosition.Y,
+            128,
+            128);
 
         _obstacleSize = new Vector2(76, 128);
         _obstaclePosition = new Vector2(
             _graphics.PreferredBackBufferWidth  - _obstacleSize.X,
             0
         );
+
+        _score = 0;
 
         base.Initialize();
     }
@@ -80,12 +94,14 @@ public class Game1 : Game
         }
 
         _playerPosition.Y += _playerVelocity.Y;
+        _playerRect.Location = _playerPosition.ToPoint();
 
-        --_obstaclePosition.X;
-
-        if (_obstaclePosition.X <= 0)
-            _obstaclePosition.X = _graphics.PreferredBackBufferWidth
-                - _obstacleSize.X;
+        _obstaclePosition.X -= _obstacleSpeed * (float)deltaTime;
+        if (_obstaclePosition.X <= (-_obstacleSize.X - 27))
+        {
+            _obstaclePosition.X = _graphics.PreferredBackBufferWidth;
+            _score++;
+        }
 
         base.Update(gameTime);
         _lastTime = gameTime.TotalGameTime.TotalSeconds;
@@ -108,23 +124,16 @@ public class Game1 : Game
             Color.White
         );
 
-        Rectangle playerRect = new Rectangle(
-            (int)_playerPosition.X,
-            (int)_playerPosition.Y,
-            128,
-            128);
         _spriteBatch.Draw(
             _playerTexture,
-            playerRect,
+            _playerRect,
             new Rectangle(256, 256, 128, 128),
             Color.White);
 
-        Rectangle obstacleRect = new Rectangle(
-            (int)_obstaclePosition.X,
-            (int)_obstaclePosition.Y,
-            (int)_obstacleSize.X,
-            (int)_obstacleSize.Y);
-        _spriteBatch.Draw(_pixelTexture, obstacleRect, Color.IndianRed);
+        _spriteBatch.Draw(
+            _pixelTexture,
+            _obstacleRect,
+            Color.IndianRed);
 
         _spriteBatch.End();
 

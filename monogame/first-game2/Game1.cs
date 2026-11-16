@@ -25,6 +25,10 @@ public class Game1 : Game
     private float     _obstacleSpeed = 125f;
     private Rectangle _obstacleRect;
 
+    // Fonts:
+    private SpriteFont _drumnikFont;
+    private Vector2 _scoreTextOrigin;
+
     private Vector2 _screenSize;
     private float _gravity = 9.8f;
     private double _lastTime = 0;
@@ -61,6 +65,10 @@ public class Game1 : Game
             _graphics.PreferredBackBufferWidth  - _obstacleSize.X,
             0
         );
+        _obstacleRect = new Rectangle(
+            _obstaclePosition.ToPoint(),
+            _obstacleSize.ToPoint()
+        );
 
         _score = 0;
 
@@ -74,6 +82,9 @@ public class Game1 : Game
             "SpriteSheets/spritesheet-enemies-double");
         _bgTexture     = Content.Load<Texture2D>(
             "SpriteSheets/background-mountain");
+        _drumnikFont   = Content.Load<SpriteFont>(
+            "Fonts/DrumnikFontDescription");
+        _scoreTextOrigin = _drumnikFont.MeasureString($"Score: {_score}");
 
         _pixelTexture.SetData(new[] { Color.BurlyWood });
     }
@@ -102,6 +113,7 @@ public class Game1 : Game
             _obstaclePosition.X = _graphics.PreferredBackBufferWidth;
             _score++;
         }
+        _obstacleRect.Location = _obstaclePosition.ToPoint();
 
         base.Update(gameTime);
         _lastTime = gameTime.TotalGameTime.TotalSeconds;
@@ -134,6 +146,17 @@ public class Game1 : Game
             _pixelTexture,
             _obstacleRect,
             Color.IndianRed);
+
+        _spriteBatch.DrawString(
+            _drumnikFont,
+            $"Score: {_score}",
+            Vector2.One * 128,
+            Color.AntiqueWhite,
+            0,
+            _scoreTextOrigin,
+            1,
+            SpriteEffects.None,
+            0);
 
         _spriteBatch.End();
 

@@ -13,6 +13,22 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Fonts/Drumnik-Clean.ttf
+/importer:FontImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/processorParam:Version=3.8.6.0
+/build:Fonts/Drumnik-Clean.ttf
+
+#begin Fonts/DrumnikFontDescription.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/processorParam:Version=3.8.6.0
+/build:Fonts/DrumnikFontDescription.spritefont
+
 #begin SpriteSheets/background-mountain.png
 /importer:TextureImporter
 /processor:TextureProcessor

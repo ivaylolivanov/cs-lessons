@@ -27,6 +27,7 @@ public class Game1 : Game
 
     // Fonts:
     private SpriteFont _drumnikFont;
+    private Vector2 _scoreTextPosition = new Vector2(128, 128);
     private Vector2 _scoreTextOrigin;
 
     private Vector2 _screenSize;
@@ -150,8 +151,8 @@ public class Game1 : Game
         _spriteBatch.DrawString(
             _drumnikFont,
             $"Score: {_score}",
-            Vector2.One * 128,
-            Color.AntiqueWhite,
+            _scoreTextPosition,
+            Color.White,
             0,
             _scoreTextOrigin,
             1,

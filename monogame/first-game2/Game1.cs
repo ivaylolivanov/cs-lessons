@@ -35,6 +35,7 @@ public class Game1 : Game
     private double _lastTime = 0;
 
     private int _score = 0;
+    private bool _isInGame = true;
 
     public Game1()
     {
@@ -53,7 +54,7 @@ public class Game1 : Game
 
         _pixelTexture =
             new Texture2D(_graphics.GraphicsDevice, 1, 1);
-        _playerPosition = new Vector2(0, 0);
+        _playerPosition = new Vector2(128, 256);
         _playerVelocity = Vector2.Zero;
         _playerRect = new Rectangle(
             (int)_playerPosition.X,
@@ -72,6 +73,7 @@ public class Game1 : Game
         );
 
         _score = 0;
+        _isInGame = true;
 
         base.Initialize();
     }
@@ -99,22 +101,38 @@ public class Game1 : Game
         double deltaTime = gameTime.TotalGameTime.TotalSeconds
             - _lastTime;
 
-        _playerVelocity.Y += _gravity * (float)deltaTime;
-        if (Keyboard.GetState().IsKeyDown(Keys.Space))
+        if (_isInGame)
         {
-            _playerVelocity.Y = _playerJumpForce * (float)deltaTime;
-        }
+            _playerVelocity.Y += _gravity * (float)deltaTime;
+            if (Keyboard.GetState().IsKeyDown(Keys.Space))
+            {
+                _playerVelocity.Y = _playerJumpForce * (float)deltaTime;
+            }
 
-        _playerPosition.Y += _playerVelocity.Y;
-        _playerRect.Location = _playerPosition.ToPoint();
+            _playerPosition.Y += _playerVelocity.Y;
+            _playerRect.Location = _playerPosition.ToPoint();
 
-        _obstaclePosition.X -= _obstacleSpeed * (float)deltaTime;
-        if (_obstaclePosition.X <= (-_obstacleSize.X - 27))
-        {
-            _obstaclePosition.X = _graphics.PreferredBackBufferWidth;
-            _score++;
+            _obstaclePosition.X -= _obstacleSpeed * (float)deltaTime;
+            if (_obstaclePosition.X <= (-_obstacleSize.X - 27))
+            {
+                _obstaclePosition.X = _graphics.PreferredBackBufferWidth;
+                _score++;
+            }
+            _obstacleRect.Location = _obstaclePosition.ToPoint();
+
+            if (_obstacleRect.Intersects(_playerRect))
+            {
+                _isInGame = false;
+            }
+
+            bool isOutOfScreen = (_playerRect.Bottom >= _screenSize.Y)
+                || (_playerRect.Right >= _screenSize.X)
+                || (_playerRect.Top <= 0)
+                || (_playerRect.Left <= 0);
+            if (isOutOfScreen)
+                _isInGame = false;
+
         }
-        _obstacleRect.Location = _obstaclePosition.ToPoint();
 
         base.Update(gameTime);
         _lastTime = gameTime.TotalGameTime.TotalSeconds;
@@ -137,27 +155,44 @@ public class Game1 : Game
             Color.White
         );
 
-        _spriteBatch.Draw(
-            _playerTexture,
-            _playerRect,
-            new Rectangle(256, 256, 128, 128),
-            Color.White);
+        if (_isInGame)
+        {
+            _spriteBatch.Draw(
+                _playerTexture,
+                _playerRect,
+                new Rectangle(256, 256, 128, 128),
+                Color.White);
 
-        _spriteBatch.Draw(
-            _pixelTexture,
-            _obstacleRect,
-            Color.IndianRed);
+            _spriteBatch.Draw(
+                _pixelTexture,
+                _obstacleRect,
+                Color.IndianRed);
 
-        _spriteBatch.DrawString(
-            _drumnikFont,
-            $"Score: {_score}",
-            _scoreTextPosition,
-            Color.White,
-            0,
-            _scoreTextOrigin,
-            1,
-            SpriteEffects.None,
-            0);
+            _spriteBatch.DrawString(
+                _drumnikFont,
+                $"Score: {_score}",
+                _scoreTextPosition,
+                Color.White,
+                0,
+                _scoreTextOrigin,
+                1,
+                SpriteEffects.None,
+                0);
+        }
+        else
+        {
+            _scoreTextPosition = _screenSize * 0.5f + _scoreTextOrigin;
+            _spriteBatch.DrawString(
+                _drumnikFont,
+                $"Score: {_score}",
+                _scoreTextPosition,
+                Color.White,
+                0,
+                _scoreTextOrigin,
+                2,
+                SpriteEffects.None,
+                0);
+        }
 
         _spriteBatch.End();
 

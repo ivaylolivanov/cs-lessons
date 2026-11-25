@@ -23,7 +23,8 @@ public class Game1 : Game
     private Vector2   _obstaclePosition;
     private Vector2   _obstacleSize;
     private float     _obstacleSpeed = 125f;
-    private Rectangle _obstacleRect;
+    private Rectangle _obstacleRectTop;
+    private Rectangle _obstacleRectBottom;
     private Rectangle _obstacleGap;
 
     // Fonts:
@@ -65,13 +66,12 @@ public class Game1 : Game
 
         _obstacleSize = new Vector2(76, 128);
         _obstaclePosition = new Vector2(
-            _graphics.PreferredBackBufferWidth  - _obstacleSize.X,
-            0
+            _graphics.PreferredBackBufferWidth - _obstacleSize.X,
+            _graphics.PreferredBackBufferHeight / 2 - _obstacleSize.Y
         );
-        _obstacleRect = new Rectangle(
-            _obstaclePosition.ToPoint(),
-            _obstacleSize.ToPoint()
-        );
+        _obstacleRectTop    = new Rectangle();
+        _obstacleRectBottom = new Rectangle();
+
         _obstacleGap = new Rectangle(
             (int)(_screenSize.X / 2) - 128,
             (int)(_screenSize.Y / 2) - 128,
@@ -125,24 +125,24 @@ public class Game1 : Game
                 _obstaclePosition.X = _graphics.PreferredBackBufferWidth;
                 _score++;
             }
-            _obstacleRect.Location = _obstaclePosition.ToPoint();
-            Rectangle upperObstacle = new Rectangle();
-            upperObstacle.Location = new Point(
+            _obstacleGap.Location = _obstaclePosition.ToPoint();
+            _obstacleRectTop.Location = new Point(
                 (int)_obstaclePosition.X,
                 0);
-            upperObstacle.Width =  _obstacleGap.Width;
-            upperObstacle.Height = _obstacleGap.Location.Y;
+            _obstacleRectTop.Width =  _obstacleGap.Width;
+            _obstacleRectTop.Height = _obstacleGap.Location.Y;
 
-            Rectangle bottomObstacle = new Rectangle();
-            bottomObstacle.Location = new Point(
+            _obstacleRectBottom.Location = new Point(
                 (int)_obstaclePosition.X,
                 (int)_screenSize.Y - _obstacleGap.Location.Y);
-            bottomObstacle.Width =  _obstacleGap.Width;
-            bottomObstacle.Height = (int)_screenSize.Y
+            _obstacleRectBottom.Width =  _obstacleGap.Width;
+            _obstacleRectBottom.Height = (int)_screenSize.Y
                 - _obstacleGap.Location.Y
                 - _obstacleGap.Height;
 
-            if (_obstacleRect.Intersects(_playerRect))
+            bool isPlayerColliding = _obstacleRectTop.Intersects(_playerRect)
+                || _obstacleRectBottom.Intersects(_playerRect);
+            if (isPlayerColliding)
             {
                 _isInGame = false;
             }
@@ -185,28 +185,13 @@ public class Game1 : Game
                 new Rectangle(256, 256, 128, 128),
                 Color.White);
 
-            Rectangle upperObstacle = new Rectangle();
-            upperObstacle.Location = new Point(
-                (int)_obstaclePosition.X,
-                0);
-            upperObstacle.Width =  _obstacleGap.Width;
-            upperObstacle.Height = _obstacleGap.Location.Y;
-
-            Rectangle bottomObstacle = new Rectangle();
-            bottomObstacle.Location = new Point(
-                (int)_obstaclePosition.X,
-                (int)_screenSize.Y - _obstacleGap.Location.Y);
-            bottomObstacle.Width =  _obstacleGap.Width;
-            bottomObstacle.Height = (int)_screenSize.Y
-                - _obstacleGap.Location.Y
-                - _obstacleGap.Height;
             _spriteBatch.Draw(
                 _pixelTexture,
-                upperObstacle,
+                _obstacleRectTop,
                 Color.IndianRed);
             _spriteBatch.Draw(
                 _pixelTexture,
-                bottomObstacle,
+                _obstacleRectBottom,
                 Color.IndianRed);
 
             _spriteBatch.DrawString(

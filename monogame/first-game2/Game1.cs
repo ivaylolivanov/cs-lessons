@@ -16,8 +16,9 @@ public class Game1 : Game
     private Texture2D   _playerTexture;
     private Vector2     _playerPosition;
     private Vector2     _playerVelocity;
-    private const float _playerJumpForce = -400;
+    private const float _playerJumpForce = -300;
     private Rectangle   _playerRect;
+    private Rectangle   _playerCollider;
 
     // Obstacle stats:
     private Vector2   _obstaclePosition;
@@ -61,8 +62,11 @@ public class Game1 : Game
         _playerRect = new Rectangle(
             (int)_playerPosition.X,
             (int)_playerPosition.Y,
-            128,
-            128);
+            80,
+            80);
+        _playerCollider = new Rectangle(
+            _playerRect.Center,
+            new Point(64, 64));
 
         _obstacleSize = new Vector2(76, 128);
         _obstaclePosition = new Vector2(
@@ -118,12 +122,26 @@ public class Game1 : Game
 
             _playerPosition.Y += _playerVelocity.Y;
             _playerRect.Location = _playerPosition.ToPoint();
+            Point playerPoint = new Point(
+                (int)(_playerPosition.X + 8),
+                (int)(_playerPosition.Y + 10)
+            );
+            _playerCollider.Location = playerPoint;
 
             _obstaclePosition.X -= _obstacleSpeed * (float)deltaTime;
             if (_obstaclePosition.X <= (-_obstacleSize.X - 27))
             {
                 _obstaclePosition.X = _graphics.PreferredBackBufferWidth;
                 _score++;
+
+                System.Random rnd = new System.Random();
+                int randomPosition = rnd.Next(256, 780);
+                Point newGapPoint = new Point(
+                    _obstacleGap.Location.X,
+                    randomPosition
+                );
+                _obstaclePosition = newGapPoint.ToVector2();
+                _obstacleGap.Location = newGapPoint;
             }
             _obstacleGap.Location = _obstaclePosition.ToPoint();
             _obstacleRectTop.Location = new Point(
@@ -140,17 +158,17 @@ public class Game1 : Game
                 - _obstacleGap.Location.Y
                 - _obstacleGap.Height;
 
-            bool isPlayerColliding = _obstacleRectTop.Intersects(_playerRect)
-                || _obstacleRectBottom.Intersects(_playerRect);
+            bool isPlayerColliding = _obstacleRectTop.Intersects(_playerCollider)
+                || _obstacleRectBottom.Intersects(_playerCollider);
             if (isPlayerColliding)
             {
                 _isInGame = false;
             }
 
-            bool isOutOfScreen = (_playerRect.Bottom >= _screenSize.Y)
-                || (_playerRect.Right >= _screenSize.X)
-                || (_playerRect.Top <= 0)
-                || (_playerRect.Left <= 0);
+            bool isOutOfScreen = (_playerCollider.Bottom >= _screenSize.Y)
+                || (_playerCollider.Right >= _screenSize.X)
+                || (_playerCollider.Top <= 0)
+                || (_playerCollider.Left <= 0);
             if (isOutOfScreen)
                 _isInGame = false;
 
@@ -179,6 +197,11 @@ public class Game1 : Game
 
         if (_isInGame)
         {
+            _spriteBatch.Draw(
+                _pixelTexture,
+                _playerCollider,
+                Color.White);
+
             _spriteBatch.Draw(
                 _playerTexture,
                 _playerRect,
